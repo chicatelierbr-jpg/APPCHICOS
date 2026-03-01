@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#E8A4B8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Chicos">
+<link rel="manifest" id="manifestLink">
+<title>Chicos — por Chicatelier</title>
+<style>
+  /* System font stack — works 100% offline, great on all devices */
+  @font-face {
+    font-family: 'Baloo 2';
+    src: local('Trebuchet MS'), local('Gill Sans'), local('Comic Sans MS'), local('Arial Rounded MT Bold');
+    font-weight: 800;
+  }
+  @font-face {
+    font-family: 'Nunito';
+    src: local('Verdana'), local('Tahoma'), local('Segoe UI'), local('Arial');
+    font-weight: 400 700;
+  }
+</style>
+<style>
+:root {
+  /* Paleta Chicos — pastel delicado, filha da Chicatelier */
+  --bg:      #FDF6F9;       /* fundo rosado suavíssimo */
+  --cream:   #FAF0F4;
+  --card:    #FFFFFF;
+  --rose:    #E8A4B8;       /* rosa principal — herda do universo Chicatelier */
+  --blush:   #F2C4D0;       /* rosa claro */
+  --peach:   #F5C5A3;       /* pêssego */
+  --sage:    #A8C5A0;       /* verde sálvia */
+  --sky:     #A8C8E8;       /* azul céu */
+  --lavender:#C4B5D8;       /* lavanda */
+  --butter:  #F5DFA0;       /* amarelo manteiga */
+  --text:    #3D2B35;       /* quase preto com tom rosado — como a tinta da Chicatelier */
+  --soft:    #9B7585;
+  --radius:  20px;
+  --shadow:  0 4px 20px rgba(61,43,53,0.09);
+  --font-display: 'Georgia','Times New Roman',serif; /* elegante como a Chicatelier */
+  --font-body:    'Trebuchet MS','Verdana',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* Textura de fundo sutil — pontilhado como papel artesanal */
+body::before {
+  content:'';
+  position:fixed;inset:0;
+  background-image: radial-gradient(circle, rgba(232,164,184,0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events:none;
+  z-index:0;
+}
+.screen, header, nav { position:relative; z-index:1; }
+
+/* HEADER */
+header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 18px;
+  background:var(--card);
+  box-shadow:0 2px 16px rgba(61,43,53,0.08);
+  position:sticky;top:0;z-index:100;
+  border-bottom: 1px solid rgba(232,164,184,0.3);
+}
+.logo{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;
+}
+.logo-mark {
+  width:40px;height:40px;flex-shrink:0;
+}
+.logo-text {
+  display:flex;flex-direction:column;line-height:1;
+}
+.logo-chicos {
+  font-family:var(--font-display);
+  font-size:1.3rem;font-weight:700;
+  color:var(--rose);
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.logo-by {
+  font-size:0.55rem;color:var(--soft);
+  letter-spacing:1.5px;text-transform:uppercase;
+  margin-top:1px;
+}
+.lang-toggle{display:flex;gap:5px;}
+.lang-btn{
+  padding:5px 12px;border-radius:30px;
+  border:1.5px solid var(--rose);background:transparent;
+  color:var(--rose);font-family:var(--font-body);
+  font-weight:700;font-size:0.8rem;cursor:pointer;transition:all .2s;
+}
+.lang-btn.active{background:var(--rose);color:white;}
+
+/* NAV */
+nav{display:flex;gap:7px;padding:12px 14px;overflow-x:auto;scrollbar-width:none;background:var(--card);border-bottom:1px solid rgba(232,164,184,0.2);}
+nav::-webkit-scrollbar{display:none;}
+.nav-btn{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 12px;border-radius:14px;border:none;background:var(--bg);box-shadow:var(--shadow);cursor:pointer;font-family:var(--font-body);font-weight:700;font-size:0.72rem;color:var(--soft);transition:all .25s;}
+.nav-btn .icon{font-size:1.3rem;}
+.nav-btn.active{background:var(--rose);color:white;transform:translateY(-2px);}
+.nav-btn:hover:not(.active){transform:translateY(-2px);}
+
+/* SCREENS */
+.screen{display:none;padding:16px 14px;}
+.screen.active{display:block;}
+.section-title{font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:14px;}
+.section-title span{color:var(--rose);}
+.section-sub{font-size:0.82rem;color:var(--soft);margin-bottom:16px;}
+.brand-footer{text-align:center;padding:24px 16px 32px;color:var(--soft);font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;opacity:0.6;}
+
+/* ===== SCREEN 1: LETRAS ===== */
+.letter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:9px;margin-bottom:18px;}
+.letter-card{aspect-ratio:1;border-radius:14px;border:none;font-family:var(--font-display);font-size:1.9rem;font-weight:800;cursor:pointer;transition:transform .18s,box-shadow .18s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;box-shadow:var(--shadow);color:white;position:relative;}
+.letter-card .lc-small{font-size:0.85rem;font-weight:600;opacity:.85;}
+.letter-card .snd-badge{position:absolute;bottom:3px;right:5px;font-size:.6rem;opacity:.7;}
+.letter-card:hover,.letter-card:active{transform:scale(1.1);box-shadow:0 8px 22px rgba(0,0,0,.18);}
+
+/* Popup */
+.letter-popup{display:none;position:fixed;inset:0;background:rgba(74,55,40,.35);backdrop-filter:blur(5px);z-index:200;align-items:center;justify-content:center;}
+.letter-popup.open{display:flex;}
+.popup-card{background:white;border-radius:28px;padding:32px 36px;text-align:center;max-width:340px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,.15);animation:popIn .3s cubic-bezier(.34,1.56,.64,1);}
+@keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.popup-big-letter{font-family:var(--font-display);font-size:5.5rem;font-weight:800;line-height:1;}
+.popup-phoneme{font-size:.9rem;color:var(--soft);margin:3px 0 8px;font-weight:600;}
+.popup-emoji{font-size:3.2rem;display:block;margin-bottom:6px;}
+.popup-word{font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:3px;}
+.popup-word-en{font-size:.9rem;color:var(--soft);margin-bottom:16px;}
+.popup-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.popup-btn{padding:10px 18px;border-radius:30px;border:none;font-family:var(--font-body);font-weight:700;font-size:.85rem;cursor:pointer;transition:transform .2s;}
+.popup-btn.spt{background:var(--rose);color:white;}
+.popup-btn.sen{background:var(--sky);color:white;}
+.popup-btn.cls{background:var(--cream);color:var(--text);}
+.popup-btn:hover{transform:scale(1.06);}
+
+/* ===== SCREEN 2: VOCABULÁRIO ===== */
+.category-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px;}
+.cat-tab{padding:8px 14px;border-radius:30px;border:none;font-family:var(--font-body);font-weight:700;font-size:.8rem;cursor:pointer;background:var(--card);box-shadow:var(--shadow);color:var(--soft);transition:all .2s;}
+.cat-tab.active{background:var(--rose);color:white;}
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;}
+.vocab-card{background:white;border-radius:16px;box-shadow:var(--shadow);padding:14px 10px;text-align:center;cursor:pointer;transition:all .22s;border:3px solid transparent;}
+.vocab-card:hover,.vocab-card:active{transform:translateY(-4px);box-shadow:0 8px 22px rgba(0,0,0,.12);}
+.vocab-card.played{border-color:var(--sage);}
+.vocab-emoji{font-size:2.8rem;display:block;margin-bottom:6px;}
+.vocab-pt{font-family:var(--font-display);font-size:1.05rem;font-weight:800;color:var(--text);}
+.vocab-en{font-size:.75rem;color:var(--soft);margin-top:2px;}
+.vocab-snd{font-size:.7rem;margin-top:4px;color:var(--rose);}
+
+/* ===== SCREEN 3: ESCREVER ===== */
+.tracing-area{text-align:center;}
+.tracing-selector{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-bottom:18px;}
+.trace-pick{width:48px;height:48px;border-radius:12px;border:3px solid transparent;background:var(--card);box-shadow:var(--shadow);font-family:var(--font-display);font-size:1.25rem;font-weight:800;cursor:pointer;transition:all .2s;color:var(--text);}
+.trace-pick.selected{border-color:var(--rose);background:#FFF0F4;}
+.canvas-wrapper{position:relative;display:inline-block;background:white;border-radius:22px;box-shadow:var(--shadow);overflow:hidden;touch-action:none;}
+.trace-guide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;color:rgba(200,180,160,.28);pointer-events:none;user-select:none;font-size:190px;line-height:1;}
+canvas#traceCanvas{display:block;cursor:crosshair;}
+.color-picker{display:flex;gap:7px;justify-content:center;margin-top:12px;flex-wrap:wrap;}
+.color-dot{width:28px;height:28px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:all .2s;}
+.color-dot.active{border-color:var(--text);transform:scale(1.22);}
+.trace-controls{display:flex;gap:9px;justify-content:center;margin-top:10px;}
+.ctrl-btn{padding:10px 20px;border-radius:30px;border:none;font-family:var(--font-body);font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s;}
+.ctrl-btn.clear{background:var(--cream);color:var(--rose);border:2px solid var(--rose);}
+.ctrl-btn.clear:hover{background:var(--rose);color:white;}
+
+/* ===== SCREEN 4: NÚMEROS ===== */
+.numbers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:11px;}
+.number-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 10px;text-align:center;cursor:pointer;transition:all .25s;border:3px solid transparent;}
+.number-card:hover{transform:translateY(-3px);}
+.number-card.counted{border-color:var(--sage);background:#F0FFF4;}
+.number-big{font-family:var(--font-display);font-size:3rem;font-weight:800;line-height:1;}
+.number-dots{font-size:1.1rem;margin:5px 0;line-height:1.7;min-height:34px;}
+.number-word{font-weight:700;font-size:.82rem;color:var(--soft);}
+.number-word-en{font-size:.72rem;color:#bbb;}
+
+/* ===== SCREEN 5: PALAVRAS (build) ===== */
+.build-game{max-width:540px;margin:0 auto;}
+.build-target{background:white;border-radius:22px;box-shadow:var(--shadow);padding:24px;text-align:center;margin-bottom:16px;}
+.build-emoji{font-size:4.2rem;display:block;margin-bottom:6px;}
+.build-hint{font-size:.82rem;color:var(--soft);margin-bottom:12px;}
+.build-slots{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;min-height:64px;margin-bottom:8px;}
+.build-slot{width:52px;height:58px;border-radius:12px;border:3px dashed #DDD;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.7rem;font-weight:800;color:var(--text);background:var(--bg);transition:all .2s;cursor:pointer;}
+.build-slot.filled{border-color:var(--sky);background:#F5F0FF;}
+.build-slot.correct-slot{border-color:var(--sage);background:#F0FFF4;color:var(--sage);}
+.build-slot.wrong-slot{border-color:var(--rose);background:#FFF0F4;animation:shake .3s;}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.build-letters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;}
+.build-letter-btn{width:52px;height:58px;border-radius:12px;border:none;font-family:var(--font-display);font-size:1.7rem;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:var(--shadow);color:white;}
+.build-letter-btn:hover{transform:translateY(-4px) scale(1.08);}
+.build-letter-btn.used{opacity:.3;pointer-events:none;}
+.build-actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;}
+.bact-btn{padding:11px 20px;border-radius:30px;border:none;font-family:var(--font-body);font-weight:700;font-size:.88rem;cursor:pointer;transition:all .2s;}
+.bact-btn.check{background:var(--sage);color:white;}
+.bact-btn.reset{background:var(--cream);color:var(--rose);border:2px solid var(--rose);}
+.bact-btn.reset:hover{background:var(--rose);color:white;}
+.bact-btn.next{background:var(--rose);color:white;display:none;}
+.bact-btn.next.show{display:inline-block;}
+.build-feedback{text-align:center;font-family:var(--font-display);font-size:1.15rem;font-weight:800;min-height:1.8rem;margin-bottom:8px;}
+.prog-row{display:flex;gap:5px;justify-content:center;margin-bottom:12px;}
+.prog-dot{width:9px;height:9px;border-radius:50%;background:#DDD;transition:background .3s;}
+.prog-dot.done{background:var(--sage);}
+.prog-dot.current{background:var(--rose);}
+
+/* ===== SCREEN 6: FRASES ===== */
+.sentence-game{max-width:580px;margin:0 auto;}
+.sent-scene{background:white;border-radius:22px;box-shadow:var(--shadow);padding:24px;text-align:center;margin-bottom:16px;}
+.sent-scene-emoji{font-size:3.8rem;display:block;margin-bottom:8px;}
+.sent-target{font-size:.82rem;color:var(--soft);margin-bottom:14px;}
+.sent-slots-row{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;min-height:56px;margin-bottom:10px;}
+.sent-slot{min-width:64px;padding:9px 12px;height:50px;border-radius:12px;border:3px dashed #DDD;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1rem;font-weight:800;background:var(--bg);color:var(--text);transition:all .2s;cursor:pointer;white-space:nowrap;}
+.sent-slot.filled{border-color:var(--lavender);background:#F8F0FF;}
+.sent-slot.correct-slot{border-color:var(--sage);background:#F0FFF4;}
+.sent-slot.wrong-slot{border-color:var(--rose);background:#FFF0F4;animation:shake .3s;}
+.sent-words-row{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-bottom:14px;}
+.sent-word-btn{padding:11px 14px;border-radius:12px;border:none;font-family:var(--font-display);font-size:.95rem;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:var(--shadow);color:white;}
+.sent-word-btn:hover{transform:translateY(-3px) scale(1.05);}
+.sent-word-btn.used{opacity:.3;pointer-events:none;}
+.sent-feedback{text-align:center;font-family:var(--font-display);font-size:1.15rem;font-weight:800;min-height:1.8rem;margin-bottom:8px;}
+.sent-actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;}
+
+/* ===== SCREEN 7: JOGO ===== */
+.word-game{max-width:580px;margin:0 auto;}
+.game-score{display:flex;justify-content:space-between;align-items:center;background:white;border-radius:var(--radius);padding:11px 16px;margin-bottom:16px;box-shadow:var(--shadow);font-weight:700;}
+.stars{font-size:1.1rem;}
+.image-card{background:white;border-radius:22px;box-shadow:var(--shadow);padding:24px;text-align:center;margin-bottom:16px;transition:all .3s;}
+.image-card.correct{background:#F0FFF4;border:3px solid var(--sage);animation:bounce .4s;}
+.image-card.wrong{animation:shake .4s;}
+@keyframes bounce{50%{transform:scale(1.05)}}
+.game-emoji{font-size:5rem;display:block;margin-bottom:8px;}
+.game-hint{font-size:.82rem;color:var(--soft);}
+.word-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.word-option{padding:13px;border-radius:var(--radius);border:3px solid #E8DDD5;background:white;font-family:var(--font-display);font-size:1.3rem;font-weight:800;cursor:pointer;transition:all .2s;text-align:center;color:var(--text);}
+.word-option:hover{border-color:var(--sky);background:#F5F0FF;transform:translateY(-2px);}
+.word-option.correct-opt{border-color:var(--sage);background:#F0FFF4;color:var(--sage);}
+.word-option.wrong-opt{border-color:var(--rose);background:#FFF0F4;color:var(--rose);}
+.next-btn{display:none;width:100%;margin-top:12px;padding:13px;border-radius:30px;border:none;background:var(--rose);color:white;font-family:var(--font-display);font-size:1.05rem;font-weight:800;cursor:pointer;transition:transform .2s;}
+.next-btn.show{display:block;}
+.next-btn:hover{transform:scale(1.02);}
+
+/* ===== SÍLABAS ===== */
+.syl-levels {
+  display:flex; gap:8px; margin-bottom:16px; justify-content:center;
+}
+.syl-level-btn {
+  flex:1; max-width:120px;
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  padding:12px 8px; border-radius:16px; border:2px solid transparent;
+  background:var(--card); box-shadow:var(--shadow);
+  cursor:pointer; font-family:var(--font-body); font-weight:700;
+  font-size:0.78rem; color:var(--soft); transition:all .25s;
+}
+.syl-level-btn .syl-level-icon { font-size:1.5rem; }
+.syl-level-btn.active { background:var(--rose); color:white; border-color:var(--rose); transform:translateY(-2px); }
+.syl-level-btn:hover:not(.active) { transform:translateY(-2px); border-color:var(--blush); }
+
+.syl-family-tabs {
+  display:flex; gap:7px; flex-wrap:wrap; margin-bottom:18px;
+}
+.syl-fam-btn {
+  padding:8px 14px; border-radius:30px; border:none;
+  font-family:var(--font-body); font-weight:700; font-size:.8rem;
+  cursor:pointer; background:var(--card); box-shadow:var(--shadow);
+  color:var(--soft); transition:all .2s;
+}
+.syl-fam-btn.active { background:var(--rose); color:white; }
+.syl-fam-btn:hover:not(.active) { background:var(--blush); color:var(--text); }
+
+/* Nível 1 — grade de sílabas */
+.syl-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px,1fr));
+  gap:10px;
+}
+.syl-card {
+  aspect-ratio:1; border-radius:16px; border:none;
+  font-family:var(--font-display); font-size:1.8rem; font-weight:700;
+  cursor:pointer; transition:transform .18s, box-shadow .18s;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:2px; box-shadow:var(--shadow); color:white; position:relative;
+  user-select:none;
+}
+.syl-card:hover, .syl-card:active { transform:scale(1.1); box-shadow:0 8px 22px rgba(0,0,0,.18); }
+.syl-card.played { outline:3px solid white; outline-offset:2px; }
+.syl-card-sub { font-size:0.7rem; opacity:.85; font-family:var(--font-body); }
+
+/* Nível 2 — animação junção sílaba */
+.syl-anim-area {
+  max-width:480px; margin:0 auto; text-align:center;
+}
+.syl-anim-picker {
+  display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:20px;
+}
+.syl-pick-btn {
+  padding:10px 16px; border-radius:30px; border:2.5px solid transparent;
+  font-family:var(--font-display); font-size:1.1rem; font-weight:700;
+  cursor:pointer; background:var(--card); box-shadow:var(--shadow);
+  color:var(--text); transition:all .2s;
+}
+.syl-pick-btn.active-syl { border-color:var(--rose); background:#FFF0F4; }
+
+.syl-stage {
+  background:white; border-radius:24px; box-shadow:var(--shadow);
+  padding:32px 24px; margin-bottom:20px; min-height:180px;
+  display:flex; align-items:center; justify-content:center;
+}
+.syl-join {
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.syl-char {
+  font-family:var(--font-display); font-size:5rem; font-weight:700;
+  transition:all .5s cubic-bezier(.34,1.56,.64,1);
+  display:inline-block; line-height:1;
+}
+.syl-char.consonant { color:#C4B5D8; }
+.syl-char.vowel     { color:#A8C8E8; }
+.syl-char.joined    { color:#E8A4B8; font-size:6rem; }
+.syl-plus {
+  font-size:2rem; color:#DDD; transition:opacity .3s;
+}
+.syl-arrow {
+  font-size:2rem; transition:opacity .3s;
+}
+.syl-anim-btn {
+  padding:14px 32px; border-radius:30px; border:none;
+  background:var(--rose); color:white;
+  font-family:var(--font-body); font-weight:700; font-size:1rem;
+  cursor:pointer; transition:all .2s; box-shadow:var(--shadow);
+}
+.syl-anim-btn:hover { filter:brightness(1.08); transform:scale(1.03); }
+
+/* Nível 3 — montar sílaba */
+.syl-build-area {
+  max-width:480px; margin:0 auto; text-align:center;
+}
+.syl-build-target {
+  background:white; border-radius:22px; box-shadow:var(--shadow);
+  padding:28px; margin-bottom:18px;
+}
+.syl-build-emoji { font-size:3.5rem; display:block; margin-bottom:6px; }
+.syl-build-hint  { font-size:.82rem; color:var(--soft); margin-bottom:14px; }
+.syl-build-slots {
+  display:flex; gap:10px; justify-content:center; margin-bottom:6px;
+}
+.syl-slot {
+  width:70px; height:76px; border-radius:14px; border:3px dashed #DDD;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-size:2.6rem; font-weight:700;
+  background:var(--bg); color:var(--text); transition:all .2s; cursor:pointer;
+}
+.syl-slot.filled  { border-color:#A8C8E8; background:#F5F0FF; }
+.syl-slot.correct { border-color:#A8C5A0; background:#F0FFF4; color:#A8C5A0; }
+.syl-slot.wrong   { border-color:#E8A4B8; background:#FFF0F4; animation:shake .3s; }
+.syl-build-letters {
+  display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:14px;
+}
+.syl-letter-btn {
+  width:60px; height:66px; border-radius:14px; border:none;
+  font-family:var(--font-display); font-size:2rem; font-weight:700;
+  cursor:pointer; transition:all .2s; box-shadow:var(--shadow); color:white;
+}
+.syl-letter-btn:hover { transform:translateY(-4px) scale(1.08); }
+.syl-letter-btn.used  { opacity:.3; pointer-events:none; }
+.syl-build-feedback {
+  font-family:var(--font-display); font-size:1.3rem; font-weight:700;
+  min-height:2rem; margin-bottom:10px; text-align:center;
+}
+.syl-build-actions { display:flex; gap:9px; justify-content:center; flex-wrap:wrap; }
+
+@media(max-width:480px){
+  .syl-grid { grid-template-columns:repeat(4,1fr); gap:8px; }
+  .syl-card  { font-size:1.5rem; }
+  .syl-char  { font-size:3.5rem; }
+  .syl-char.joined { font-size:4.5rem; }
+  .syl-slot  { width:58px; height:64px; font-size:2rem; }
+  .syl-letter-btn { width:52px; height:58px; font-size:1.7rem; }
+}
+  .letter-grid{grid-template-columns:repeat(5,1fr);gap:7px;}
+  .letter-card{font-size:1.6rem;}
+  .numbers-grid{grid-template-columns:repeat(2,1fr);}
+  .vocab-grid{grid-template-columns:repeat(2,1fr);}
+  .popup-big-letter{font-size:4.2rem;}
+  .build-slot,.build-letter-btn{width:44px;height:50px;font-size:1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <!-- Mandala ornamental simplificada — herança da Chicatelier -->
+    <svg class="logo-mark" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Semicírculo base -->
+      <path d="M10 58 A30 30 0 0 1 70 58" stroke="#E8A4B8" stroke-width="2.5" fill="none"/>
+      <!-- Arco médio -->
+      <path d="M18 58 A22 22 0 0 1 62 58" stroke="#C4B5D8" stroke-width="2" fill="none"/>
+      <!-- Arco interno -->
+      <path d="M26 58 A14 14 0 0 1 54 58" stroke="#A8C8E8" stroke-width="1.8" fill="none"/>
+      <!-- Pétalas do topo -->
+      <ellipse cx="40" cy="28" rx="4" ry="6" fill="#F2C4D0" opacity="0.8"/>
+      <ellipse cx="27" cy="33" rx="3.5" ry="5.5" fill="#F2C4D0" opacity="0.7" transform="rotate(-30 27 33)"/>
+      <ellipse cx="53" cy="33" rx="3.5" ry="5.5" fill="#F2C4D0" opacity="0.7" transform="rotate(30 53 33)"/>
+      <ellipse cx="17" cy="44" rx="3" ry="5" fill="#C4B5D8" opacity="0.6" transform="rotate(-55 17 44)"/>
+      <ellipse cx="63" cy="44" rx="3" ry="5" fill="#C4B5D8" opacity="0.6" transform="rotate(55 63 44)"/>
+      <!-- Ponto central ornamental -->
+      <circle cx="40" cy="58" r="4" fill="#E8A4B8" opacity="0.5"/>
+      <circle cx="40" cy="58" r="2" fill="#E8A4B8"/>
+      <!-- Floretes laterais -->
+      <circle cx="10" cy="58" r="3" fill="#A8C5A0" opacity="0.7"/>
+      <circle cx="70" cy="58" r="3" fill="#A8C5A0" opacity="0.7"/>
+      <!-- Pequenos detalhes -->
+      <circle cx="22" cy="30" r="1.5" fill="#F5DFA0" opacity="0.8"/>
+      <circle cx="58" cy="30" r="1.5" fill="#F5DFA0" opacity="0.8"/>
+    </svg>
+    <div class="logo-text">
+      <span class="logo-chicos" id="appTitle">Chicos</span>
+      <span class="logo-by">por Chicatelier</span>
+    </div>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('pt')">PT</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</header>
+
+<nav>
+  <button class="nav-btn active" onclick="showScreen('letters')"><span class="icon">🔤</span><span data-pt="Letras" data-en="Letters">Letras</span></button>
+  <button class="nav-btn" onclick="showScreen('syllables')"><span class="icon">🎵</span><span data-pt="Sílabas" data-en="Syllables">Sílabas</span></button>
+  <button class="nav-btn" onclick="showScreen('vocab')"><span class="icon">📚</span><span data-pt="Palavras" data-en="Words">Palavras</span></button>
+  <button class="nav-btn" onclick="showScreen('tracing')"><span class="icon">✏️</span><span data-pt="Escrever" data-en="Write">Escrever</span></button>
+  <button class="nav-btn" onclick="showScreen('numbers')"><span class="icon">🔢</span><span data-pt="Números" data-en="Numbers">Números</span></button>
+  <button class="nav-btn" onclick="showScreen('build')"><span class="icon">🧩</span><span data-pt="Montar" data-en="Build">Montar</span></button>
+  <button class="nav-btn" onclick="showScreen('sentences')"><span class="icon">💬</span><span data-pt="Frases" data-en="Sentences">Frases</span></button>
+  <button class="nav-btn" onclick="showScreen('wordgame')"><span class="icon">🎮</span><span data-pt="Jogo" data-en="Game">Jogo</span></button>
+</nav>
+
+<!-- LETRAS -->
+<div class="screen active" id="screen-letters">
+  <div class="section-title">Vamos conhecer as <span>letras!</span></div>
+  <div class="section-sub">🔊 <span data-pt="Toque numa letra para ouvir o som!" data-en="Tap a letter to hear its sound!">Toque numa letra para ouvir o som!</span></div>
+  <div class="letter-grid" id="letterGrid"></div>
+</div>
+
+<!-- SÍLABAS -->
+<div class="screen" id="screen-syllables">
+  <div class="section-title">Famílias de <span>sílabas!</span></div>
+  <div class="section-sub" id="sylSubtitle">🎵 Toque numa sílaba para ouvir o som!</div>
+
+  <!-- Seletor de nível -->
+  <div class="syl-levels">
+    <button class="syl-level-btn active" onclick="setSylLevel(1,this)">
+      <span class="syl-level-icon">👂</span>
+      <span data-pt="Ouvir" data-en="Listen">Ouvir</span>
+    </button>
+    <button class="syl-level-btn" onclick="setSylLevel(2,this)">
+      <span class="syl-level-icon">✨</span>
+      <span data-pt="Animar" data-en="Watch">Animar</span>
+    </button>
+    <button class="syl-level-btn" onclick="setSylLevel(3,this)">
+      <span class="syl-level-icon">🧩</span>
+      <span data-pt="Montar" data-en="Build">Montar</span>
+    </button>
+  </div>
+
+  <!-- Seletor de família -->
+  <div class="syl-family-tabs" id="sylFamilyTabs"></div>
+
+  <!-- Conteúdo dinâmico por nível -->
+  <div id="sylContent"></div>
+</div>
+
+<!-- VOCABULÁRIO -->
+<div class="screen" id="screen-vocab">
+  <div class="section-title">Banco de <span>palavras!</span></div>
+  <div class="section-sub" data-pt="🔊 Toque numa palavra para ouvir!" data-en="🔊 Tap a word to hear it!">🔊 Toque numa palavra para ouvir!</div>
+  <div class="category-tabs" id="catTabs"></div>
+  <div class="vocab-grid" id="vocabGrid"></div>
+</div>
+
+<!-- ESCREVER -->
+<div class="screen" id="screen-tracing">
+  <div class="section-title">Hora de <span>escrever!</span></div>
+  <div class="tracing-area">
+    <div class="tracing-selector" id="tracingSelector"></div>
+    <div class="canvas-wrapper">
+      <div class="trace-guide" id="traceGuide">A</div>
+      <canvas id="traceCanvas" width="300" height="300"></canvas>
+    </div>
+    <div class="color-picker" id="colorPicker"></div>
+    <div class="trace-controls">
+      <button class="ctrl-btn clear" id="clearBtn">🗑️ <span data-pt="Apagar" data-en="Clear">Apagar</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- NÚMEROS -->
+<div class="screen" id="screen-numbers">
+  <div class="section-title">Vamos <span>contar!</span></div>
+  <div class="numbers-grid" id="numbersGrid"></div>
+</div>
+
+<!-- MONTAR PALAVRAS -->
+<div class="screen" id="screen-build">
+  <div class="section-title">Monte a <span>palavra!</span></div>
+  <div class="build-game">
+    <div class="prog-row" id="buildProgress"></div>
+    <div class="build-target">
+      <span class="build-emoji" id="buildEmoji">🐱</span>
+      <div class="build-hint" id="buildHint">Monte a palavra!</div>
+      <div class="build-slots" id="buildSlots"></div>
+    </div>
+    <div class="build-letters" id="buildLetters"></div>
+    <div class="build-feedback" id="buildFeedback"></div>
+    <div class="build-actions">
+      <button class="bact-btn reset" id="buildReset">🔄 <span data-pt="Reiniciar" data-en="Restart">Reiniciar</span></button>
+      <button class="bact-btn check" id="buildCheck">✅ <span data-pt="Verificar" data-en="Check">Verificar</span></button>
+      <button class="bact-btn next" id="buildNext">➡️ <span data-pt="Próxima" data-en="Next">Próxima</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- FRASES -->
+<div class="screen" id="screen-sentences">
+  <div class="section-title">Monte a <span>frase!</span></div>
+  <div class="sentence-game">
+    <div class="prog-row" id="sentProgress"></div>
+    <div class="sent-scene">
+      <span class="sent-scene-emoji" id="sentEmoji">🐱</span>
+      <div class="sent-target" id="sentTarget">Monte a frase:</div>
+      <div class="sent-slots-row" id="sentSlots"></div>
+    </div>
+    <div class="sent-words-row" id="sentWords"></div>
+    <div class="sent-feedback" id="sentFeedback"></div>
+    <div class="sent-actions">
+      <button class="bact-btn reset" id="sentReset">🔄 <span data-pt="Reiniciar" data-en="Restart">Reiniciar</span></button>
+      <button class="bact-btn check" id="sentCheck">✅ <span data-pt="Verificar" data-en="Check">Verificar</span></button>
+      <button class="bact-btn next" id="sentNext" style="display:none">➡️ <span data-pt="Próxima" data-en="Next">Próxima</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- JOGO -->
+<div class="screen" id="screen-wordgame">
+  <div class="section-title"><span>Jogo</span> das palavras!</div>
+  <div class="word-game">
+    <div class="game-score">
+      <div class="stars" id="starsDisplay">☆☆☆</div>
+      <div id="scoreDisplay">0 pontos</div>
+    </div>
+    <div class="image-card" id="imageCard">
+      <span class="game-emoji" id="gameEmoji">🐱</span>
+      <p class="game-hint" id="gameHint">Qual é essa palavra?</p>
+    </div>
+    <div class="word-options" id="wordOptions"></div>
+    <button class="next-btn" id="nextBtn">➡️ Próxima!</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="brand-footer">✦ &nbsp; Chicos por Chicatelier &nbsp; ✦</div>
+
+<!-- POPUP LETRA -->
+<div class="letter-popup" id="letterPopup" onclick="closePopupBg(event)">
+  <div class="popup-card">
+    <div class="popup-big-letter" id="popupLetter">A</div>
+    <div class="popup-phoneme" id="popupPhoneme">som: "aaa"</div>
+    <span class="popup-emoji" id="popupEmoji">🐝</span>
+    <div class="popup-word" id="popupWord">Abelha</div>
+    <div class="popup-word-en" id="popupWordEn">Bee</div>
+    <div class="popup-btns">
+      <button class="popup-btn spt" id="popupSoundPt">🔊 PT</button>
+      <button class="popup-btn sen" id="popupSoundEn">🔊 EN</button>
+      <button class="popup-btn cls" onclick="document.getElementById('letterPopup').classList.remove('open')">
+        <span data-pt="Fechar" data-en="Close">Fechar</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==========================================================
+// 🔐 SISTEMA DE TOKENS — edite aqui para gerenciar acessos
+// ==========================================================
+// Formato: 'TOKEN': { nome, validade (null = sem expirar) }
+// Para revogar: remova a linha do cliente
+// Para criar novo: adicione uma linha com token único
+const TOKENS = {
+  'DEMO2025':   { nome: 'Demonstração',       validade: null },
+  'FAM-xK9mP':  { nome: 'Família Silva',       validade: null },
+  'FAM-tZ3nQ':  { nome: 'Família Oliveira',    validade: null },
+  'FAM-bR7wL':  { nome: 'Família Santos',      validade: null },
+  'PROF-dH4vY': { nome: 'Professora Ana',      validade: null },
+  'PROF-cJ8uE': { nome: 'Professora Maria',    validade: null },
+  'ESC-mF2kA':  { nome: 'Creche Girassol',     validade: null },
+};
+
+// ==========================================================
+// 🔐 VALIDAÇÃO DE TOKEN
+// ==========================================================
+(function checkToken() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token') || params.get('t');
+  const stored = sessionStorage.getItem('aprender_token');
+  const activeToken = token || stored;
+
+  if (activeToken && TOKENS[activeToken]) {
+    // Token válido — salva na sessão e limpa a URL
+    sessionStorage.setItem('aprender_token', activeToken);
+    const cliente = TOKENS[activeToken];
+    // Remove token da URL sem recarregar (visual mais limpo)
+    if (token) {
+      const cleanURL = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, '', cleanURL);
+    }
+    console.log('✅ Acesso autorizado:', cliente.nome);
+    return; // Continua carregando o app normalmente
+  }
+
+  // Token inválido ou ausente — bloqueia e mostra tela
+  document.addEventListener('DOMContentLoaded', showBlockScreen);
+
+  function showBlockScreen() {
+    document.body.innerHTML = '';
+    document.body.style.cssText = `
+      margin:0;padding:0;
+      background:linear-gradient(135deg,var(--bg) 0%,#FFE8D6 100%);
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+      font-family:'Verdana','Tahoma',system-ui,sans-serif;
+    `;
+    document.body.innerHTML = `
+      <div style="text-align:center;padding:40px 24px;max-width:400px;">
+        <div style="font-size:5rem;margin-bottom:16px;">🔒</div>
+        <h1 style="font-size:1.6rem;font-weight:800;color:var(--text);margin-bottom:10px;">
+          Acesso restrito
+        </h1>
+        <p style="color:var(--soft);font-size:.95rem;line-height:1.6;margin-bottom:28px;">
+          Este app é exclusivo para assinantes.<br>
+          Use o link completo recebido após a compra.
+        </p>
+        <div style="background:white;border-radius:20px;padding:24px;box-shadow:0 4px 20px rgba(74,55,40,.1);margin-bottom:20px;">
+          <p style="font-size:.85rem;color:var(--soft);margin-bottom:12px;font-weight:600;">Tem um código de acesso?</p>
+          <input id="tokenInput" type="text" placeholder="Cole seu código aqui"
+            style="width:100%;padding:12px 16px;border-radius:12px;border:2px solid #E8DDD5;
+            font-size:1rem;font-family:inherit;outline:none;margin-bottom:10px;text-align:center;
+            letter-spacing:1px;text-transform:uppercase;">
+          <button onclick="tryToken()"
+            style="width:100%;padding:13px;border-radius:30px;border:none;
+            background:var(--rose);color:white;font-size:1rem;font-weight:700;
+            font-family:inherit;cursor:pointer;">
+            Entrar →
+          </button>
+          <p id="tokenError" style="color:var(--rose);font-size:.8rem;margin-top:8px;min-height:1.2em;"></p>
+        </div>
+        <p style="font-size:.8rem;color:var(--soft);">
+          Ainda não tem acesso?<br>
+          <a href="https://wa.me/55SEU_NUMERO" target="_blank"
+            style="color:var(--rose);font-weight:700;text-decoration:none;">
+            📲 Fale no WhatsApp
+          </a>
+        </p>
+      </div>
+      <script>
+        function tryToken() {
+          const val = document.getElementById('tokenInput').value.trim().toUpperCase();
+          if (!val) return;
+          window.location.href = window.location.pathname + '?token=' + val;
+        }
+        document.getElementById('tokenInput').addEventListener('keydown', e => {
+          if (e.key === 'Enter') tryToken();
+        });
+      <\/script>
+    `;
+  }
+})();
+
+// ==========================================================
+// DADOS
+// ==========================================================
+const CL = { v: 'pt' };
+
+// --- LETRAS ---
+const letters = [
+  {l:'A',color:'var(--rose)',emoji:'🐝',pt:'Abelha',   en:'Ant',       phonePT:'som: "aaa"',     phoneEN:'sound: "æ"'},
+  {l:'B',color:'var(--butter)',emoji:'🎈',pt:'Bola',     en:'Ball',      phonePT:'som: "b"',       phoneEN:'sound: "b"'},
+  {l:'C',color:'var(--sage)',emoji:'🏠',pt:'Casa',     en:'Cat',       phonePT:'som: "k"',       phoneEN:'sound: "k"'},
+  {l:'D',color:'var(--sky)',emoji:'🦷',pt:'Dente',    en:'Dog',       phonePT:'som: "d"',       phoneEN:'sound: "d"'},
+  {l:'E',color:'var(--lavender)',emoji:'⭐',pt:'Estrela',  en:'Egg',       phonePT:'som: "é"',       phoneEN:'sound: "ɛ"'},
+  {l:'F',color:'var(--rose)',emoji:'🌸',pt:'Flor',     en:'Fish',      phonePT:'som: "f"',       phoneEN:'sound: "f"'},
+  {l:'G',color:'var(--butter)',emoji:'🐱',pt:'Gato',     en:'Girl',      phonePT:'som: "g"',       phoneEN:'sound: "g"'},
+  {l:'H',color:'var(--sage)',emoji:'🌿',pt:'Horta',    en:'Hat',       phonePT:'fraco em PT',    phoneEN:'sound: "h"'},
+  {l:'I',color:'var(--sky)',emoji:'🌈',pt:'Íris',     en:'Igloo',     phonePT:'som: "i"',       phoneEN:'sound: "ɪ"'},
+  {l:'J',color:'var(--lavender)',emoji:'💎',pt:'Joia',     en:'Jam',       phonePT:'som: "j"',       phoneEN:'sound: "dʒ"'},
+  {l:'K',color:'var(--rose)',emoji:'🦘',pt:'Koala',    en:'Kite',      phonePT:'som: "k"',       phoneEN:'sound: "k"'},
+  {l:'L',color:'var(--butter)',emoji:'🌙',pt:'Lua',      en:'Lion',      phonePT:'som: "l"',       phoneEN:'sound: "l"'},
+  {l:'M',color:'var(--sage)',emoji:'🍎',pt:'Maçã',     en:'Moon',      phonePT:'som: "m"',       phoneEN:'sound: "m"'},
+  {l:'N',color:'var(--sky)',emoji:'☁️',pt:'Nuvem',    en:'Nest',      phonePT:'som: "n"',       phoneEN:'sound: "n"'},
+  {l:'O',color:'var(--lavender)',emoji:'🐑',pt:'Ovelha',   en:'Owl',       phonePT:'som: "ó"',       phoneEN:'sound: "ɒ"'},
+  {l:'P',color:'var(--rose)',emoji:'🐠',pt:'Peixe',    en:'Pig',       phonePT:'som: "p"',       phoneEN:'sound: "p"'},
+  {l:'Q',color:'var(--butter)',emoji:'🧀',pt:'Queijo',   en:'Queen',     phonePT:'som: "k"',       phoneEN:'sound: "kw"'},
+  {l:'R',color:'var(--sage)',emoji:'🐸',pt:'Rã',       en:'Rain',      phonePT:'som: "r"',       phoneEN:'sound: "r"'},
+  {l:'S',color:'var(--sky)',emoji:'☀️',pt:'Sol',      en:'Sun',       phonePT:'som: "s"',       phoneEN:'sound: "s"'},
+  {l:'T',color:'var(--lavender)',emoji:'🐢',pt:'Tartaruga',en:'Turtle',    phonePT:'som: "t"',       phoneEN:'sound: "t"'},
+  {l:'U',color:'var(--rose)',emoji:'🍇',pt:'Uva',      en:'Umbrella',  phonePT:'som: "u"',       phoneEN:'sound: "ʌ"'},
+  {l:'V',color:'var(--butter)',emoji:'🌬️',pt:'Vento',   en:'Van',       phonePT:'som: "v"',       phoneEN:'sound: "v"'},
+  {l:'X',color:'var(--sage)',emoji:'🎶',pt:'Xilofone', en:'Box',       phonePT:'som: "x" (ch)',  phoneEN:'sound: "ks"'},
+  {l:'Z',color:'var(--sky)',emoji:'🦓',pt:'Zebra',    en:'Zebra',     phonePT:'som: "z"',       phoneEN:'sound: "z"'},
+];
+
+// --- VOCABULÁRIO POR CATEGORIA (50+ palavras) ---
+const vocabulary = {
+  animais: {
+    label_pt:'🐾 Animais', label_en:'🐾 Animals',
+    color:'var(--rose)',
+    words:[
+      {emoji:'🐱',pt:'GATO',    en:'CAT'},
+      {emoji:'🐶',pt:'CÃO',     en:'DOG'},
+      {emoji:'🐸',pt:'RÃ',      en:'FROG'},
+      {emoji:'🐠',pt:'PEIXE',   en:'FISH'},
+      {emoji:'🐢',pt:'TARTARUGA',en:'TURTLE'},
+      {emoji:'🦋',pt:'BORBOLETA',en:'BUTTERFLY'},
+      {emoji:'🐝',pt:'ABELHA',  en:'BEE'},
+      {emoji:'🐔',pt:'GALINHA', en:'HEN'},
+      {emoji:'🐄',pt:'VACA',    en:'COW'},
+      {emoji:'🐴',pt:'CAVALO',  en:'HORSE'},
+      {emoji:'🐘',pt:'ELEFANTE',en:'ELEPHANT'},
+      {emoji:'🦁',pt:'LEÃO',    en:'LION'},
+    ]
+  },
+  frutas: {
+    label_pt:'🍎 Frutas', label_en:'🍎 Fruits',
+    color:'var(--sage)',
+    words:[
+      {emoji:'🍎',pt:'MAÇÃ',    en:'APPLE'},
+      {emoji:'🍌',pt:'BANANA',  en:'BANANA'},
+      {emoji:'🍊',pt:'LARANJA', en:'ORANGE'},
+      {emoji:'🍇',pt:'UVA',     en:'GRAPE'},
+      {emoji:'🍓',pt:'MORANGO', en:'STRAWBERRY'},
+      {emoji:'🍉',pt:'MELANCIA',en:'WATERMELON'},
+      {emoji:'🍋',pt:'LIMÃO',   en:'LEMON'},
+      {emoji:'🥭',pt:'MANGA',   en:'MANGO'},
+      {emoji:'🍑',pt:'PÊSSEGO', en:'PEACH'},
+      {emoji:'🍐',pt:'PERA',    en:'PEAR'},
+    ]
+  },
+  corpo: {
+    label_pt:'👁️ Corpo', label_en:'👁️ Body',
+    color:'var(--sky)',
+    words:[
+      {emoji:'👁️',pt:'OLHO',    en:'EYE'},
+      {emoji:'👃',pt:'NARIZ',   en:'NOSE'},
+      {emoji:'👄',pt:'BOCA',    en:'MOUTH'},
+      {emoji:'👂',pt:'ORELHA',  en:'EAR'},
+      {emoji:'🦷',pt:'DENTE',   en:'TOOTH'},
+      {emoji:'✋',pt:'MÃO',     en:'HAND'},
+      {emoji:'🦶',pt:'PÉ',      en:'FOOT'},
+      {emoji:'💪',pt:'BRAÇO',   en:'ARM'},
+      {emoji:'🦵',pt:'PERNA',   en:'LEG'},
+      {emoji:'❤️',pt:'CORAÇÃO', en:'HEART'},
+    ]
+  },
+  natureza: {
+    label_pt:'🌿 Natureza', label_en:'🌿 Nature',
+    color:'var(--lavender)',
+    words:[
+      {emoji:'☀️',pt:'SOL',      en:'SUN'},
+      {emoji:'🌙',pt:'LUA',      en:'MOON'},
+      {emoji:'⭐',pt:'ESTRELA',  en:'STAR'},
+      {emoji:'☁️',pt:'NUVEM',    en:'CLOUD'},
+      {emoji:'🌧️',pt:'CHUVA',   en:'RAIN'},
+      {emoji:'🌈',pt:'ARCO-ÍRIS',en:'RAINBOW'},
+      {emoji:'🌊',pt:'MAR',      en:'SEA'},
+      {emoji:'🌸',pt:'FLOR',     en:'FLOWER'},
+      {emoji:'🌳',pt:'ÁRVORE',   en:'TREE'},
+      {emoji:'🌱',pt:'PLANTA',   en:'PLANT'},
+    ]
+  },
+  casa: {
+    label_pt:'🏠 Casa', label_en:'🏠 Home',
+    color:'var(--butter)',
+    words:[
+      {emoji:'🏠',pt:'CASA',     en:'HOUSE'},
+      {emoji:'🚪',pt:'PORTA',    en:'DOOR'},
+      {emoji:'🪟',pt:'JANELA',   en:'WINDOW'},
+      {emoji:'🛏️',pt:'CAMA',    en:'BED'},
+      {emoji:'🪑',pt:'CADEIRA',  en:'CHAIR'},
+      {emoji:'🍽️',pt:'PRATO',   en:'PLATE'},
+      {emoji:'🥄',pt:'COLHER',   en:'SPOON'},
+      {emoji:'🚿',pt:'BANHO',    en:'BATH'},
+      {emoji:'📚',pt:'LIVRO',    en:'BOOK'},
+      {emoji:'🖍️',pt:'LÁPIS',   en:'PENCIL'},
+    ]
+  },
+  comida: {
+    label_pt:'🍞 Comida', label_en:'🍞 Food',
+    color:'var(--peach)',
+    words:[
+      {emoji:'🍞',pt:'PÃO',      en:'BREAD'},
+      {emoji:'🥚',pt:'OVO',      en:'EGG'},
+      {emoji:'🥛',pt:'LEITE',    en:'MILK'},
+      {emoji:'🧀',pt:'QUEIJO',   en:'CHEESE'},
+      {emoji:'🍫',pt:'CHOCOLATE',en:'CHOCOLATE'},
+      {emoji:'🍰',pt:'BOLO',     en:'CAKE'},
+      {emoji:'🥕',pt:'CENOURA',  en:'CARROT'},
+      {emoji:'🥔',pt:'BATATA',   en:'POTATO'},
+      {emoji:'🍅',pt:'TOMATE',   en:'TOMATO'},
+      {emoji:'🍚',pt:'ARROZ',    en:'RICE'},
+    ]
+  },
+};
+
+// Todas as palavras juntas (para o jogo)
+const allWords = Object.values(vocabulary).flatMap(cat =>
+  cat.words.map(w => ({...w, color: cat.color}))
+);
+
+// --- NÚMEROS ---
+const numbers = [
+  {n:1,dots:'●',                   pt:'um',     en:'one'},
+  {n:2,dots:'● ●',                 pt:'dois',   en:'two'},
+  {n:3,dots:'● ● ●',               pt:'três',   en:'three'},
+  {n:4,dots:'● ●\n● ●',            pt:'quatro', en:'four'},
+  {n:5,dots:'● ● ●\n● ●',          pt:'cinco',  en:'five'},
+  {n:6,dots:'● ● ●\n● ● ●',        pt:'seis',   en:'six'},
+  {n:7,dots:'● ● ●\n● ● ●\n●',     pt:'sete',   en:'seven'},
+  {n:8,dots:'● ● ●\n● ● ●\n● ●',   pt:'oito',   en:'eight'},
+  {n:9,dots:'● ● ●\n● ● ●\n● ● ●', pt:'nove',   en:'nine'},
+  {n:10,dots:'● ● ● ● ●\n● ● ● ● ●',pt:'dez',   en:'ten'},
+];
+const numColors=['#E8A4B8','#F5DFA0','#A8C5A0','#A8C8E8','#C4B5D8','#F5C5A3','#E8A4B8','#F5DFA0','#A8C5A0','#A8C8E8'];
+
+// --- MONTAR PALAVRAS ---
+const buildPuzzles=[
+  {emoji:'🐱',pt:'GATO',   en:'CAT',   cols:['var(--rose)','var(--butter)','var(--sage)','var(--sky)']},
+  {emoji:'🌸',pt:'FLOR',   en:'ROSE',  cols:['var(--lavender)','var(--rose)','var(--butter)','var(--sage)']},
+  {emoji:'☀️',pt:'SOL',    en:'SUN',   cols:['var(--butter)','var(--sage)','var(--sky)']},
+  {emoji:'🌙',pt:'LUA',    en:'MOON',  cols:['var(--sky)','var(--lavender)','var(--rose)','var(--butter)']},
+  {emoji:'🐸',pt:'RÃ',     en:'FROG',  cols:['var(--sage)','var(--rose)','var(--butter)','var(--sky)']},
+  {emoji:'🍎',pt:'MAÇÃ',   en:'APPLE', cols:['var(--rose)','var(--butter)','var(--sage)','var(--sky)','var(--lavender)']},
+  {emoji:'🍌',pt:'BANANA', en:'BANANA',cols:['var(--butter)','var(--rose)','var(--sage)','var(--sky)','var(--lavender)','var(--peach)']},
+  {emoji:'🌳',pt:'ÁRVORE', en:'TREE',  cols:['var(--sage)','var(--rose)','var(--butter)','var(--sky)','var(--lavender)','var(--peach)']},
+  {emoji:'🐝',pt:'ABELHA', en:'BEE',   cols:['var(--butter)','var(--rose)','var(--sage)']},
+  {emoji:'🏠',pt:'CASA',   en:'HOUSE', cols:['var(--sky)','var(--lavender)','var(--rose)','var(--butter)']},
+  {emoji:'🥛',pt:'LEITE',  en:'MILK',  cols:['var(--sky)','var(--rose)','var(--butter)','var(--sage)','var(--lavender)']},
+  {emoji:'🍞',pt:'PÃO',    en:'BREAD', cols:['var(--peach)','var(--rose)','var(--butter)']},
+];
+
+// --- FRASES ---
+const sentencePuzzles=[
+  {emoji:'🐱',pt:{words:['O','GATO','É','BONITO'],   hint:'O gato é bonito.'},   en:{words:['THE','CAT','IS','CUTE'],       hint:'The cat is cute.'}},
+  {emoji:'☀️',pt:{words:['O','SOL','É','GRANDE'],    hint:'O sol é grande.'},    en:{words:['THE','SUN','IS','BIG'],        hint:'The sun is big.'}},
+  {emoji:'🌸',pt:{words:['A','FLOR','É','LINDA'],    hint:'A flor é linda.'},    en:{words:['THE','FLOWER','IS','PRETTY'],  hint:'The flower is pretty.'}},
+  {emoji:'🐸',pt:{words:['A','RÃ','PULA','ALTO'],    hint:'A rã pula alto.'},    en:{words:['THE','FROG','JUMPS','HIGH'],   hint:'The frog jumps high.'}},
+  {emoji:'🌙',pt:{words:['A','LUA','É','BRANCA'],    hint:'A lua é branca.'},    en:{words:['THE','MOON','IS','WHITE'],     hint:'The moon is white.'}},
+  {emoji:'🍎',pt:{words:['A','MAÇÃ','É','VERMELHA'], hint:'A maçã é vermelha.'}, en:{words:['THE','APPLE','IS','RED'],      hint:'The apple is red.'}},
+  {emoji:'🐶',pt:{words:['O','CÃO','LATE','MUITO'],  hint:'O cão late muito.'},  en:{words:['THE','DOG','BARKS','A LOT'],   hint:'The dog barks a lot.'}},
+  {emoji:'🌧️',pt:{words:['A','CHUVA','É','FRIA'],   hint:'A chuva é fria.'},    en:{words:['THE','RAIN','IS','COLD'],      hint:'The rain is cold.'}},
+  {emoji:'🦁',pt:{words:['O','LEÃO','É','FORTE'],    hint:'O leão é forte.'},    en:{words:['THE','LION','IS','STRONG'],    hint:'The lion is strong.'}},
+  {emoji:'🍌',pt:{words:['A','BANANA','É','AMARELA'],hint:'A banana é amarela.'},en:{words:['THE','BANANA','IS','YELLOW'],  hint:'The banana is yellow.'}},
+];
+
+// ==========================================================
+// LÍNGUA
+// ==========================================================
+function setLang(l) {
+  CL.v=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim().toLowerCase()===l));
+  document.querySelectorAll('[data-pt]').forEach(el=>{const v=el.getAttribute('data-'+l);if(v)el.innerHTML=v;});
+  document.getElementById('appTitle').textContent='Chicos';
+  renderVocab(currentCat);
+  renderWordGame();
+  buildIdx=0;initBuildGame();
+  sentIdx=0;initSentenceGame();
+}
+
+function showScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  const sc=['letters','syllables','vocab','tracing','numbers','build','sentences','wordgame'];
+  const i=sc.indexOf(name);
+  if(i>=0) document.querySelectorAll('.nav-btn')[i].classList.add('active');
+  if(name==='tracing') initCanvas();
+  if(name==='syllables') initSyllables();
+}
+
+// ==========================================================
+// FALA
+// ==========================================================
+function speak(text,lang,rate=0.8,pitch=1.1){
+  if(!window.speechSynthesis) return;
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=lang;u.rate=rate;u.pitch=pitch;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
+}
+function speakLetter(l,lc){speak(l,lc,0.42,1.2);}
+function speakWord(t,lc){speak(t,lc,0.72,1.1);}
+
+// ==========================================================
+// LETRAS
+// ==========================================================
+function renderLetters(){
+  const g=document.getElementById('letterGrid');g.innerHTML='';
+  letters.forEach(d=>{
+    const btn=document.createElement('button');
+    btn.className='letter-card';btn.style.background=d.color;
+    btn.innerHTML=`${d.l}<span class="lc-small">${d.l.toLowerCase()}</span><span class="snd-badge">🔊</span>`;
+    btn.onclick=()=>openLetterPopup(d);
+    g.appendChild(btn);
+  });
+}
+function openLetterPopup(d){
+  const l=CL.v;
+  document.getElementById('popupLetter').textContent=d.l;
+  document.getElementById('popupLetter').style.color=d.color;
+  document.getElementById('popupPhoneme').textContent=l==='pt'?d.phonePT:d.phoneEN;
+  document.getElementById('popupEmoji').textContent=d.emoji;
+  document.getElementById('popupWord').textContent=d.pt;
+  document.getElementById('popupWordEn').textContent=d.en;
+  document.getElementById('letterPopup').classList.add('open');
+  setTimeout(()=>speakLetter(d.l,l==='pt'?'pt-BR':'en-US'),250);
+  setTimeout(()=>speakWord(d[l],l==='pt'?'pt-BR':'en-US'),1100);
+  document.getElementById('popupSoundPt').onclick=()=>{speakLetter(d.l,'pt-BR');setTimeout(()=>speakWord(d.pt,'pt-BR'),900);};
+  document.getElementById('popupSoundEn').onclick=()=>{speakLetter(d.l,'en-US');setTimeout(()=>speakWord(d.en,'en-US'),900);};
+}
+function closePopupBg(e){if(e.target===document.getElementById('letterPopup'))document.getElementById('letterPopup').classList.remove('open');}
+
+// ==========================================================
+// VOCABULÁRIO
+// ==========================================================
+let currentCat='animais';
+
+function renderCategoryTabs(){
+  const tabs=document.getElementById('catTabs');tabs.innerHTML='';
+  Object.entries(vocabulary).forEach(([key,cat])=>{
+    const btn=document.createElement('button');
+    btn.className='cat-tab'+(key===currentCat?' active':'');
+    btn.textContent=CL.v==='pt'?cat.label_pt:cat.label_en;
+    btn.onclick=()=>{currentCat=key;renderVocab(key);document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');};
+    tabs.appendChild(btn);
+  });
+}
+
+function renderVocab(catKey){
+  renderCategoryTabs();
+  const cat=vocabulary[catKey];
+  const grid=document.getElementById('vocabGrid');grid.innerHTML='';
+  cat.words.forEach(w=>{
+    const card=document.createElement('div');
+    card.className='vocab-card';
+    const word=CL.v==='pt'?w.pt:w.en;
+    const other=CL.v==='pt'?w.en:w.pt;
+    card.innerHTML=`<span class="vocab-emoji">${w.emoji}</span>
+      <div class="vocab-pt" style="color:${cat.color}">${word}</div>
+      <div class="vocab-en">${other}</div>
+      <div class="vocab-snd">🔊 toque para ouvir</div>`;
+    card.onclick=()=>{
+      card.classList.add('played');
+      speakWord(word,CL.v==='pt'?'pt-BR':'en-US');
+      setTimeout(()=>speakWord(other,CL.v==='pt'?'en-US':'pt-BR'),900);
+    };
+    grid.appendChild(card);
+  });
+}
+
+// ==========================================================
+// TRAÇADO
+// ==========================================================
+const traceItems=['A','B','C','D','E','F','G','H','I','L','M','N','O','P','R','S','T','U','V','Z','1','2','3','4','5','6','7','8','9','10'];
+let curTrace='A',painting=false,ctx=null,drawColor='#E8A4B8',canvasInited=false;
+
+function renderTracingSelector(){
+  const sel=document.getElementById('tracingSelector');sel.innerHTML='';
+  traceItems.forEach(t=>{
+    const btn=document.createElement('button');
+    btn.className='trace-pick'+(t===curTrace?' selected':'');btn.textContent=t;
+    btn.onclick=()=>{curTrace=t;document.querySelectorAll('.trace-pick').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');document.getElementById('traceGuide').textContent=t;clearCanvas();speakLetter(t,CL.v==='pt'?'pt-BR':'en-US');};
+    sel.appendChild(btn);
+  });
+}
+function initCanvas(){
+  if(canvasInited)return;canvasInited=true;
+  const c=document.getElementById('traceCanvas');ctx=c.getContext('2d');ctx.lineCap='round';ctx.lineJoin='round';
+  c.addEventListener('mousedown',e=>{painting=true;sP(e.offsetX,e.offsetY);});
+  c.addEventListener('mousemove',e=>{if(painting)dP(e.offsetX,e.offsetY);});
+  c.addEventListener('mouseup',()=>painting=false);c.addEventListener('mouseleave',()=>painting=false);
+  c.addEventListener('touchstart',e=>{e.preventDefault();painting=true;const t=gTP(c,e);sP(t.x,t.y);},{passive:false});
+  c.addEventListener('touchmove',e=>{e.preventDefault();if(painting){const t=gTP(c,e);dP(t.x,t.y);}},{passive:false});
+  c.addEventListener('touchend',()=>painting=false);
+  document.getElementById('clearBtn').onclick=clearCanvas;
+  renderColorPicker();renderTracingSelector();
+}
+function gTP(c,e){const r=c.getBoundingClientRect();return{x:e.touches[0].clientX-r.left,y:e.touches[0].clientY-r.top};}
+function sP(x,y){ctx.beginPath();ctx.moveTo(x,y);}
+function dP(x,y){ctx.strokeStyle=drawColor;ctx.lineWidth=16;ctx.lineTo(x,y);ctx.stroke();ctx.beginPath();ctx.moveTo(x,y);}
+function clearCanvas(){if(!ctx)return;ctx.clearRect(0,0,300,300);}
+const drawColors=['#E8A4B8','#F5DFA0','#A8C5A0','#A8C8E8','#C4B5D8','#F5C5A3','#3D2B35','#FFFFFF'];
+function renderColorPicker(){
+  const p=document.getElementById('colorPicker');p.innerHTML='';
+  drawColors.forEach(c=>{
+    const d=document.createElement('div');
+    d.className='color-dot'+(c===drawColor?' active':'');
+    d.style.background=c;
+    d.style.border = c==='#FFFFFF' ? '3px solid #E8A4B8' : '3px solid transparent';
+    d.title = c;
+    d.onclick=()=>{
+      drawColor=c;
+      document.querySelectorAll('.color-dot').forEach(el=>{
+        el.classList.remove('active');
+        el.style.border = el.style.background==='rgb(255, 255, 255)' ? '3px solid #E8A4B8' : '3px solid transparent';
+      });
+      d.classList.add('active');
+      d.style.border='3px solid #3D2B35';
+    };
+    p.appendChild(d);
+  });
+}
+
+// ==========================================================
+// NÚMEROS
+// ==========================================================
+function renderNumbers(){
+  const g=document.getElementById('numbersGrid');g.innerHTML='';
+  numbers.forEach((d,i)=>{
+    const card=document.createElement('div');card.className='number-card';
+    card.innerHTML=`<div class="number-big" style="color:${numColors[i]}">${d.n}</div>
+      <div class="number-dots" style="white-space:pre">${d.dots}</div>
+      <div class="number-word">${d.pt}</div><div class="number-word-en">${d.en}</div>`;
+    card.onclick=()=>{card.classList.toggle('counted');speak(String(d.n),'pt-BR',.7,1.1);setTimeout(()=>speak(d.en,'en-US',.7,1.1),700);};
+    g.appendChild(card);
+  });
+}
+
+// ==========================================================
+// MONTAR PALAVRAS
+// ==========================================================
+let buildIdx=0,buildSlotData=[],buildUsed=[];
+const shuffledBuild=[...buildPuzzles].sort(()=>Math.random()-.5);
+
+function initBuildGame(){
+  const l=CL.v;const q=shuffledBuild[buildIdx%shuffledBuild.length];
+  const word=l==='pt'?q.pt:q.en;
+  buildSlotData=Array(word.length).fill('');buildUsed=[];
+  document.getElementById('buildEmoji').textContent=q.emoji;
+  document.getElementById('buildFeedback').textContent='';
+  document.getElementById('buildNext').classList.remove('show');
+  speak(l==='pt'?'Monte a palavra!':'Build the word!',l==='pt'?'pt-BR':'en-US');
+  setTimeout(()=>speakWord(q[l],l==='pt'?'pt-BR':'en-US'),1100);
+
+  const total=Math.min(buildPuzzles.length,10);
+  const prog=document.getElementById('buildProgress');prog.innerHTML='';
+  for(let i=0;i<total;i++){const d=document.createElement('div');const ci=buildIdx%total;d.className='prog-dot'+(i<ci?' done':i===ci?' current':'');prog.appendChild(d);}
+
+  const sEl=document.getElementById('buildSlots');sEl.innerHTML='';
+  [...word].forEach((_,i)=>{const s=document.createElement('div');s.className='build-slot';s.dataset.idx=i;s.onclick=()=>removeFromSlot(i);sEl.appendChild(s);});
+
+  const allL=[...word];
+  const pool='ABCDEFGILMNOPRSTUVZ'.split('').filter(c=>!word.includes(c));
+  for(let i=0;i<2&&pool.length;i++)allL.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);
+  const shuffL=allL.sort(()=>Math.random()-.5);
+
+  const lEl=document.getElementById('buildLetters');lEl.innerHTML='';
+  shuffL.forEach((lt,i)=>{
+    const btn=document.createElement('button');btn.className='build-letter-btn';btn.style.background=q.cols[i%q.cols.length];
+    btn.textContent=lt;btn.dataset.li=i;btn.onclick=()=>addToSlot(lt,btn,i);lEl.appendChild(btn);
+  });
+  document.getElementById('buildCheck').onclick=checkBuildWord;
+  document.getElementById('buildReset').onclick=initBuildGame;
+  document.getElementById('buildNext').onclick=()=>{buildIdx++;initBuildGame();};
+}
+function addToSlot(lt,btn,li){
+  const n=buildSlotData.indexOf('');if(n===-1)return;
+  buildSlotData[n]=lt;buildUsed.push({slotIdx:n,btnLi:li});btn.classList.add('used');
+  const s=document.getElementById('buildSlots').children[n];s.textContent=lt;s.classList.add('filled');
+  speakLetter(lt,CL.v==='pt'?'pt-BR':'en-US');
+}
+function removeFromSlot(si){
+  if(buildSlotData[si]==='')return;buildSlotData[si]='';
+  const e=buildUsed.find(u=>u.slotIdx===si);
+  if(e){document.getElementById('buildLetters').children[e.btnLi].classList.remove('used');buildUsed=buildUsed.filter(u=>u.slotIdx!==si);}
+  const s=document.getElementById('buildSlots').children[si];s.textContent='';s.classList.remove('filled','correct-slot','wrong-slot');
+}
+function checkBuildWord(){
+  const l=CL.v;const q=shuffledBuild[buildIdx%shuffledBuild.length];const word=l==='pt'?q.pt:q.en;
+  const formed=buildSlotData.join('');const sEl=document.getElementById('buildSlots');const fb=document.getElementById('buildFeedback');
+  if(formed===word){
+    [...sEl.children].forEach(s=>s.classList.add('correct-slot'));
+    fb.textContent=l==='pt'?'🎉 Muito bem!':'🎉 Well done!';fb.style.color='#A8C5A0';
+    speak((l==='pt'?'Muito bem! ':'Well done! ')+q[l],l==='pt'?'pt-BR':'en-US');
+    document.getElementById('buildNext').classList.add('show');
+  } else {
+    [...word].forEach((ch,i)=>{const s=sEl.children[i];if(buildSlotData[i]===ch)s.classList.add('correct-slot');else if(buildSlotData[i]!=='')s.classList.add('wrong-slot');});
+    fb.textContent=l==='pt'?'Tente de novo! 🤔':'Try again! 🤔';fb.style.color='#E8A4B8';
+    speak(l==='pt'?'Tente de novo!':'Try again!',l==='pt'?'pt-BR':'en-US');
+    setTimeout(()=>[...sEl.children].forEach(s=>s.classList.remove('correct-slot','wrong-slot')),900);
+  }
+}
+
+// ==========================================================
+// FRASES
+// ==========================================================
+let sentIdx=0,sentSlotData=[],sentUsed=[];
+const shuffledSent=[...sentencePuzzles].sort(()=>Math.random()-.5);
+const sentColors=['var(--rose)','var(--butter)','var(--sage)','var(--sky)','var(--lavender)','var(--peach)'];
+
+function initSentenceGame(){
+  const l=CL.v;const q=shuffledSent[sentIdx%shuffledSent.length];const data=l==='pt'?q.pt:q.en;const words=data.words;
+  sentSlotData=Array(words.length).fill('');sentUsed=[];
+  document.getElementById('sentEmoji').textContent=q.emoji;
+  document.getElementById('sentTarget').textContent=l==='pt'?'Monte a frase:':'Build the sentence:';
+  document.getElementById('sentFeedback').textContent='';
+  document.getElementById('sentNext').style.display='none';
+  speak(l==='pt'?'Monte a frase!':'Build the sentence!',l==='pt'?'pt-BR':'en-US');
+
+  const total=Math.min(sentencePuzzles.length,8);
+  const prog=document.getElementById('sentProgress');prog.innerHTML='';
+  for(let i=0;i<total;i++){const d=document.createElement('div');const ci=sentIdx%total;d.className='prog-dot'+(i<ci?' done':i===ci?' current':'');prog.appendChild(d);}
+
+  const sEl=document.getElementById('sentSlots');sEl.innerHTML='';
+  words.forEach((_,i)=>{const s=document.createElement('div');s.className='sent-slot';s.dataset.idx=i;s.textContent='___';s.onclick=()=>removeSentSlot(i);sEl.appendChild(s);});
+
+  const shuffW=[...words].sort(()=>Math.random()-.5);
+  const wEl=document.getElementById('sentWords');wEl.innerHTML='';
+  shuffW.forEach((w,i)=>{
+    const btn=document.createElement('button');btn.className='sent-word-btn';btn.style.background=sentColors[i%sentColors.length];
+    btn.textContent=w;btn.dataset.wi=i;btn.onclick=()=>addSentSlot(w,btn,i);wEl.appendChild(btn);
+  });
+  document.getElementById('sentCheck').onclick=checkSentence;
+  document.getElementById('sentReset').onclick=initSentenceGame;
+  document.getElementById('sentNext').onclick=()=>{sentIdx++;initSentenceGame();};
+}
+function addSentSlot(word,btn,wi){
+  const n=sentSlotData.indexOf('');if(n===-1)return;
+  sentSlotData[n]=word;sentUsed.push({slotIdx:n,btnWi:wi});btn.classList.add('used');
+  const s=document.getElementById('sentSlots').children[n];s.textContent=word;s.classList.add('filled');
+  speakWord(word,CL.v==='pt'?'pt-BR':'en-US');
+}
+function removeSentSlot(si){
+  if(sentSlotData[si]==='')return;sentSlotData[si]='';
+  const e=sentUsed.find(u=>u.slotIdx===si);
+  if(e){document.getElementById('sentWords').children[e.btnWi].classList.remove('used');sentUsed=sentUsed.filter(u=>u.slotIdx!==si);}
+  const s=document.getElementById('sentSlots').children[si];s.textContent='___';s.classList.remove('filled','correct-slot','wrong-slot');
+}
+function checkSentence(){
+  const l=CL.v;const q=shuffledSent[sentIdx%shuffledSent.length];
+  const correct=l==='pt'?q.pt.words:q.en.words;const hint=l==='pt'?q.pt.hint:q.en.hint;
+  const sEl=document.getElementById('sentSlots');const fb=document.getElementById('sentFeedback');
+  let ok=true;
+  correct.forEach((w,i)=>{const s=sEl.children[i];if(sentSlotData[i]===w)s.classList.add('correct-slot');else{s.classList.add('wrong-slot');ok=false;}});
+  if(ok){
+    fb.textContent=l==='pt'?'🎉 Perfeito!':'🎉 Perfect!';fb.style.color='#A8C5A0';
+    speak(hint,l==='pt'?'pt-BR':'en-US',.75);document.getElementById('sentNext').style.display='inline-block';
+  } else {
+    fb.textContent=l==='pt'?'Tente de novo! 💪':'Try again! 💪';fb.style.color='#E8A4B8';
+    speak(l==='pt'?'Tente de novo!':'Try again!',l==='pt'?'pt-BR':'en-US');
+    setTimeout(()=>[...sEl.children].forEach(s=>s.classList.remove('correct-slot','wrong-slot')),900);
+  }
+}
+
+// ==========================================================
+// JOGO
+// ==========================================================
+let gameScore=0,gameIdx=0,gameAnswered=false;
+const shuffledWP=[...allWords].sort(()=>Math.random()-.5);
+
+function renderWordGame(){
+  const q=shuffledWP[gameIdx%shuffledWP.length];const l=CL.v;
+  document.getElementById('gameEmoji').textContent=q.emoji;
+  gameAnswered=false;
+  document.getElementById('nextBtn').classList.remove('show');
+  document.getElementById('imageCard').classList.remove('correct','wrong');
+  const correct=l==='pt'?q.pt:q.en;
+  // pick 3 random wrong answers from allWords
+  const wrongs=allWords.filter(w=>(l==='pt'?w.pt:w.en)!==correct).sort(()=>Math.random()-.5).slice(0,3);
+  const pool=[correct,...wrongs.map(w=>l==='pt'?w.pt:w.en)].slice(0,4).sort(()=>Math.random()-.5);
+
+  const opts=document.getElementById('wordOptions');opts.innerHTML='';
+  pool.forEach(w=>{
+    const btn=document.createElement('button');btn.className='word-option';btn.textContent=w;
+    btn.onclick=()=>checkAnswer(w,correct,btn);opts.appendChild(btn);
+  });
+  document.getElementById('starsDisplay').textContent='⭐'.repeat(Math.min(gameScore,8))||'☆☆☆';
+  document.getElementById('scoreDisplay').textContent=`${gameScore} ${l==='pt'?'pontos':'points'}`;
+  document.getElementById('gameHint').textContent=l==='pt'?'Qual é essa palavra?':'What is this?';
+  document.getElementById('nextBtn').textContent=l==='pt'?'➡️ Próxima!':'➡️ Next!';
+  speakWord(correct,l==='pt'?'pt-BR':'en-US');
+}
+function checkAnswer(chosen,correct,btn){
+  if(gameAnswered)return;gameAnswered=true;const l=CL.v;
+  const card=document.getElementById('imageCard');
+  if(chosen===correct){
+    btn.classList.add('correct-opt');card.classList.add('correct');gameScore++;
+    speak(l==='pt'?'Muito bem!':'Well done!',l==='pt'?'pt-BR':'en-US');
+  } else {
+    btn.classList.add('wrong-opt');card.classList.add('wrong');
+    document.querySelectorAll('.word-option').forEach(b=>{if(b.textContent===correct)b.classList.add('correct-opt');});
+    speak(l==='pt'?'Tente de novo!':'Try again!',l==='pt'?'pt-BR':'en-US');
+  }
+  document.getElementById('nextBtn').classList.add('show');
+}
+document.getElementById('nextBtn').onclick=()=>{gameIdx++;renderWordGame();};
+
+// ==========================================================
+// SÍLABAS
+// ==========================================================
+
+const sylColors = {
+  vogais: '#E8A4B8',
+  B:'#C4B5D8', C:'#A8C8E8', D:'#A8C5A0', F:'#F5C5A3',
+  G:'#F5DFA0', J:'#E8A4B8', L:'#A8C8E8', M:'#C4B5D8',
+  N:'#A8C5A0', P:'#F5C5A3', Q:'#F5DFA0', R:'#E8A4B8',
+  S:'#A8C8E8', T:'#C4B5D8', V:'#A8C5A0',
+  CH:'#F5C5A3', LH:'#F5DFA0', NH:'#E8A4B8',
+  BR:'#C4B5D8', CR:'#A8C8E8', DR:'#A8C5A0', FR:'#F5C5A3',
+  GR:'#F5DFA0', PR:'#E8A4B8', TR:'#C4B5D8', VR:'#A8C8E8',
+  BL:'#A8C5A0', CL:'#F5C5A3', FL:'#F5DFA0', GL:'#E8A4B8', PL:'#C4B5D8',
+};
+
+// Famílias silábicas completas
+const sylFamilies = [
+  {
+    key:'vogais', label:'🌸 Vogais',
+    syllables:[
+      {syl:'A', sub:'á', emoji:'🐝', word_pt:'Abelha', word_en:'Ant'},
+      {syl:'E', sub:'é', emoji:'⭐', word_pt:'Estrela', word_en:'Star'},
+      {syl:'I', sub:'i', emoji:'🌈', word_pt:'Iris', word_en:'Iris'},
+      {syl:'O', sub:'ó', emoji:'🐑', word_pt:'Ovelha', word_en:'Owl'},
+      {syl:'U', sub:'u', emoji:'🍇', word_pt:'Uva', word_en:'Grape'},
+    ],
+    type:'vowels'
+  },
+  {
+    key:'B', label:'B',
+    syllables:[
+      {syl:'BA',sub:'ba'},{syl:'BE',sub:'be'},{syl:'BI',sub:'bi'},
+      {syl:'BO',sub:'bo'},{syl:'BU',sub:'bu'},
+    ],
+    example:{emoji:'🎈',word_pt:'Bola',word_en:'Ball'}, type:'simple'
+  },
+  {
+    key:'C', label:'C',
+    syllables:[
+      {syl:'CA',sub:'ca'},{syl:'CE',sub:'se'},{syl:'CI',sub:'si'},
+      {syl:'CO',sub:'co'},{syl:'CU',sub:'cu'},
+    ],
+    example:{emoji:'🏠',word_pt:'Casa',word_en:'House'}, type:'simple'
+  },
+  {
+    key:'D', label:'D',
+    syllables:[
+      {syl:'DA',sub:'da'},{syl:'DE',sub:'de'},{syl:'DI',sub:'di'},
+      {syl:'DO',sub:'do'},{syl:'DU',sub:'du'},
+    ],
+    example:{emoji:'🦷',word_pt:'Dente',word_en:'Tooth'}, type:'simple'
+  },
+  {
+    key:'F', label:'F',
+    syllables:[
+      {syl:'FA',sub:'fa'},{syl:'FE',sub:'fe'},{syl:'FI',sub:'fi'},
+      {syl:'FO',sub:'fo'},{syl:'FU',sub:'fu'},
+    ],
+    example:{emoji:'🌸',word_pt:'Flor',word_en:'Flower'}, type:'simple'
+  },
+  {
+    key:'G', label:'G',
+    syllables:[
+      {syl:'GA',sub:'ga'},{syl:'GE',sub:'je'},{syl:'GI',sub:'ji'},
+      {syl:'GO',sub:'go'},{syl:'GU',sub:'gu'},
+    ],
+    example:{emoji:'🐱',word_pt:'Gato',word_en:'Cat'}, type:'simple'
+  },
+  {
+    key:'J', label:'J',
+    syllables:[
+      {syl:'JA',sub:'ja'},{syl:'JE',sub:'je'},{syl:'JI',sub:'ji'},
+      {syl:'JO',sub:'jo'},{syl:'JU',sub:'ju'},
+    ],
+    example:{emoji:'💎',word_pt:'Joia',word_en:'Jewel'}, type:'simple'
+  },
+  {
+    key:'L', label:'L',
+    syllables:[
+      {syl:'LA',sub:'la'},{syl:'LE',sub:'le'},{syl:'LI',sub:'li'},
+      {syl:'LO',sub:'lo'},{syl:'LU',sub:'lu'},
+    ],
+    example:{emoji:'🌙',word_pt:'Lua',word_en:'Moon'}, type:'simple'
+  },
+  {
+    key:'M', label:'M',
+    syllables:[
+      {syl:'MA',sub:'ma'},{syl:'ME',sub:'me'},{syl:'MI',sub:'mi'},
+      {syl:'MO',sub:'mo'},{syl:'MU',sub:'mu'},
+    ],
+    example:{emoji:'🍎',word_pt:'Maçã',word_en:'Apple'}, type:'simple'
+  },
+  {
+    key:'N', label:'N',
+    syllables:[
+      {syl:'NA',sub:'na'},{syl:'NE',sub:'ne'},{syl:'NI',sub:'ni'},
+      {syl:'NO',sub:'no'},{syl:'NU',sub:'nu'},
+    ],
+    example:{emoji:'☁️',word_pt:'Nuvem',word_en:'Cloud'}, type:'simple'
+  },
+  {
+    key:'P', label:'P',
+    syllables:[
+      {syl:'PA',sub:'pa'},{syl:'PE',sub:'pe'},{syl:'PI',sub:'pi'},
+      {syl:'PO',sub:'po'},{syl:'PU',sub:'pu'},
+    ],
+    example:{emoji:'🐠',word_pt:'Peixe',word_en:'Fish'}, type:'simple'
+  },
+  {
+    key:'R', label:'R',
+    syllables:[
+      {syl:'RA',sub:'ra'},{syl:'RE',sub:'re'},{syl:'RI',sub:'ri'},
+      {syl:'RO',sub:'ro'},{syl:'RU',sub:'ru'},
+    ],
+    example:{emoji:'🐸',word_pt:'Rã',word_en:'Frog'}, type:'simple'
+  },
+  {
+    key:'S', label:'S',
+    syllables:[
+      {syl:'SA',sub:'sa'},{syl:'SE',sub:'se'},{syl:'SI',sub:'si'},
+      {syl:'SO',sub:'so'},{syl:'SU',sub:'su'},
+    ],
+    example:{emoji:'☀️',word_pt:'Sol',word_en:'Sun'}, type:'simple'
+  },
+  {
+    key:'T', label:'T',
+    syllables:[
+      {syl:'TA',sub:'ta'},{syl:'TE',sub:'te'},{syl:'TI',sub:'ti'},
+      {syl:'TO',sub:'to'},{syl:'TU',sub:'tu'},
+    ],
+    example:{emoji:'🐢',word_pt:'Tartaruga',word_en:'Turtle'}, type:'simple'
+  },
+  {
+    key:'V', label:'V',
+    syllables:[
+      {syl:'VA',sub:'va'},{syl:'VE',sub:'ve'},{syl:'VI',sub:'vi'},
+      {syl:'VO',sub:'vo'},{syl:'VU',sub:'vu'},
+    ],
+    example:{emoji:'🌬️',word_pt:'Vento',word_en:'Wind'}, type:'simple'
+  },
+  {
+    key:'CH', label:'CH',
+    syllables:[
+      {syl:'CHA',sub:'xá'},{syl:'CHE',sub:'xê'},{syl:'CHI',sub:'xi'},
+      {syl:'CHO',sub:'xo'},{syl:'CHU',sub:'xu'},
+    ],
+    example:{emoji:'🍫',word_pt:'Chocolate',word_en:'Chocolate'}, type:'digraph'
+  },
+  {
+    key:'LH', label:'LH',
+    syllables:[
+      {syl:'LHA',sub:'lha'},{syl:'LHE',sub:'lhe'},{syl:'LHI',sub:'lhi'},
+      {syl:'LHO',sub:'lho'},{syl:'LHU',sub:'lhu'},
+    ],
+    example:{emoji:'👁️',word_pt:'Olho',word_en:'Eye'}, type:'digraph'
+  },
+  {
+    key:'NH', label:'NH',
+    syllables:[
+      {syl:'NHA',sub:'nha'},{syl:'NHE',sub:'nhe'},{syl:'NHI',sub:'nhi'},
+      {syl:'NHO',sub:'nho'},{syl:'NHU',sub:'nhu'},
+    ],
+    example:{emoji:'🦋',word_pt:'Amanhã',word_en:'Tomorrow'}, type:'digraph'
+  },
+  {
+    key:'BR', label:'BR',
+    syllables:[
+      {syl:'BRA',sub:'bra'},{syl:'BRE',sub:'bre'},{syl:'BRI',sub:'bri'},
+      {syl:'BRO',sub:'bro'},{syl:'BRU',sub:'bru'},
+    ],
+    example:{emoji:'🤱',word_pt:'Braço',word_en:'Arm'}, type:'complex'
+  },
+  {
+    key:'CR', label:'CR',
+    syllables:[
+      {syl:'CRA',sub:'cra'},{syl:'CRE',sub:'cre'},{syl:'CRI',sub:'cri'},
+      {syl:'CRO',sub:'cro'},{syl:'CRU',sub:'cru'},
+    ],
+    example:{emoji:'👑',word_pt:'Criança',word_en:'Child'}, type:'complex'
+  },
+  {
+    key:'FL', label:'FL',
+    syllables:[
+      {syl:'FLA',sub:'fla'},{syl:'FLE',sub:'fle'},{syl:'FLI',sub:'fli'},
+      {syl:'FLO',sub:'flo'},{syl:'FLU',sub:'flu'},
+    ],
+    example:{emoji:'🌸',word_pt:'Flor',word_en:'Flower'}, type:'complex'
+  },
+  {
+    key:'PR', label:'PR',
+    syllables:[
+      {syl:'PRA',sub:'pra'},{syl:'PRE',sub:'pre'},{syl:'PRI',sub:'pri'},
+      {syl:'PRO',sub:'pro'},{syl:'PRU',sub:'pru'},
+    ],
+    example:{emoji:'🎁',word_pt:'Presente',word_en:'Gift'}, type:'complex'
+  },
+  {
+    key:'TR', label:'TR',
+    syllables:[
+      {syl:'TRA',sub:'tra'},{syl:'TRE',sub:'tre'},{syl:'TRI',sub:'tri'},
+      {syl:'TRO',sub:'tro'},{syl:'TRU',sub:'tru'},
+    ],
+    example:{emoji:'🚂',word_pt:'Trem',word_en:'Train'}, type:'complex'
+  },
+];
+
+let currentSylFamily = 'vogais';
+let currentSylLevel  = 1;
+// Level 2 state
+let sylAnimIndex = 0;
+let sylAnimPlaying = false;
+// Level 3 state
+let sylBuildIndex = 0;
+let sylBuildSlots = [];
+let sylBuildUsed  = [];
+
+function initSyllables() {
+  renderSylFamilyTabs();
+  renderSylLevel();
+}
+
+function setSylLevel(n, btn) {
+  currentSylLevel = n;
+  document.querySelectorAll('.syl-level-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  sylBuildIndex = 0;
+  renderSylLevel();
+}
+
+function setSylFamily(key) {
+  currentSylFamily = key;
+  sylBuildIndex = 0;
+  sylAnimIndex = 0;
+  document.querySelectorAll('.syl-fam-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.key === key));
+  renderSylLevel();
+}
+
+function renderSylFamilyTabs() {
+  const tabs = document.getElementById('sylFamilyTabs');
+  tabs.innerHTML = '';
+  // Group labels
+  const groups = [
+    {label:'🌸 Vogais', keys:['vogais']},
+    {label:'Simples', keys:['B','C','D','F','G','J','L','M','N','P','R','S','T','V']},
+    {label:'Dígrafos', keys:['CH','LH','NH']},
+    {label:'Complexas', keys:['BR','CR','FL','PR','TR']},
+  ];
+  groups.forEach(g => {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:6px;width:100%';
+    const gLabel = document.createElement('span');
+    gLabel.style.cssText = 'font-size:.7rem;color:var(--soft);font-weight:700;letter-spacing:.5px;text-transform:uppercase;flex-basis:100%';
+    gLabel.textContent = g.label;
+    wrap.appendChild(gLabel);
+    g.keys.forEach(key => {
+      const fam = sylFamilies.find(f => f.key === key);
+      if (!fam) return;
+      const btn = document.createElement('button');
+      btn.className = 'syl-fam-btn' + (key === currentSylFamily ? ' active' : '');
+      btn.dataset.key = key;
+      btn.textContent = fam.label;
+      btn.onclick = () => setSylFamily(key);
+      wrap.appendChild(btn);
+    });
+    tabs.appendChild(wrap);
+  });
+}
+
+function renderSylLevel() {
+  const fam = sylFamilies.find(f => f.key === currentSylFamily);
+  if (!fam) return;
+  const content = document.getElementById('sylContent');
+  content.innerHTML = '';
+
+  if (currentSylLevel === 1) renderSylLevel1(fam, content);
+  if (currentSylLevel === 2) renderSylLevel2(fam, content);
+  if (currentSylLevel === 3) renderSylLevel3(fam, content);
+}
+
+// ---- NÍVEL 1: Ouvir ----
+function renderSylLevel1(fam, container) {
+  const color = sylColors[fam.key] || '#E8A4B8';
+  const l = CL.v;
+
+  // Palavra-exemplo no topo
+  if (fam.example) {
+    const ex = document.createElement('div');
+    ex.style.cssText = 'background:white;border-radius:18px;padding:16px;text-align:center;margin-bottom:16px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;gap:14px;';
+    ex.innerHTML = `<span style="font-size:2.8rem">${fam.example.emoji}</span>
+      <div>
+        <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:${color}">${fam.example.word_pt}</div>
+        <div style="font-size:.8rem;color:var(--soft)">${fam.example.word_en}</div>
+      </div>`;
+    container.appendChild(ex);
+  }
+
+  const grid = document.createElement('div');
+  grid.className = 'syl-grid';
+
+  fam.syllables.forEach(s => {
+    const card = document.createElement('button');
+    card.className = 'syl-card';
+    card.style.background = color;
+    card.innerHTML = `${s.syl}<span class="syl-card-sub">${s.sub||''}</span>`;
+    card.onclick = () => {
+      card.classList.add('played');
+      speakWord(s.syl, 'pt-BR');
+      // Se for vogal, fala nome também
+      if (fam.type === 'vowels' && s.word_pt) {
+        setTimeout(() => speakWord(s.word_pt, 'pt-BR'), 900);
+      }
+    };
+    grid.appendChild(card);
+  });
+  container.appendChild(grid);
+
+  // Botão "ouvir todas"
+  const allBtn = document.createElement('button');
+  allBtn.className = 'syl-anim-btn';
+  allBtn.style.cssText = 'margin-top:16px;display:block;margin-left:auto;margin-right:auto;';
+  allBtn.innerHTML = '🔊 ' + (l==='pt' ? 'Ouvir todas' : 'Hear all');
+  allBtn.onclick = () => {
+    let i = 0;
+    function next() {
+      if (i >= fam.syllables.length) return;
+      const s = fam.syllables[i];
+      speakWord(s.syl, 'pt-BR');
+      const cards = grid.querySelectorAll('.syl-card');
+      cards.forEach(c => c.style.transform = 'scale(1)');
+      if (cards[i]) cards[i].style.transform = 'scale(1.15)';
+      i++;
+      setTimeout(next, 900);
+    }
+    next();
+  };
+  container.appendChild(allBtn);
+}
+
+// ---- NÍVEL 2: Animar junção ----
+function renderSylLevel2(fam, container) {
+  const color = sylColors[fam.key] || '#E8A4B8';
+  const l = CL.v;
+
+  const area = document.createElement('div');
+  area.className = 'syl-anim-area';
+
+  // Seletor de sílaba
+  const picker = document.createElement('div');
+  picker.className = 'syl-anim-picker';
+  fam.syllables.forEach((s, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'syl-pick-btn' + (i === sylAnimIndex ? ' active-syl' : '');
+    btn.style.color = color;
+    btn.textContent = s.syl;
+    btn.onclick = () => {
+      sylAnimIndex = i;
+      document.querySelectorAll('.syl-pick-btn').forEach(b => b.classList.remove('active-syl'));
+      btn.classList.add('active-syl');
+      resetAnimation(fam, i, color, stage);
+    };
+    picker.appendChild(btn);
+  });
+  area.appendChild(picker);
+
+  // Stage de animação
+  const stage = document.createElement('div');
+  stage.className = 'syl-stage';
+  area.appendChild(stage);
+
+  // Botão animar
+  const animBtn = document.createElement('button');
+  animBtn.className = 'syl-anim-btn';
+  animBtn.innerHTML = '▶️ ' + (l==='pt' ? 'Animar!' : 'Animate!');
+  animBtn.onclick = () => playJoinAnimation(fam, sylAnimIndex, color, stage, animBtn);
+  area.appendChild(animBtn);
+
+  container.appendChild(area);
+  resetAnimation(fam, sylAnimIndex, color, stage);
+}
+
+function resetAnimation(fam, idx, color, stage) {
+  const s = fam.syllables[idx];
+  const syl = s.syl;
+
+  // Split into consonant part + vowel
+  // For complex syllables like BRA: cons=BR, vowel=A
+  const vowels = 'AEIOU';
+  let consStr = '', vowelStr = '';
+  // Find last vowel
+  for (let i = syl.length - 1; i >= 0; i--) {
+    if (vowels.includes(syl[i])) {
+      vowelStr = syl[i];
+      consStr = syl.slice(0, i);
+      break;
+    }
+  }
+  if (!consStr) { consStr = syl; vowelStr = ''; }
+
+  if (fam.type === 'vowels') {
+    // Solo vowel — just show big
+    stage.innerHTML = `<span class="syl-char joined" style="color:${color}">${syl}</span>`;
+  } else {
+    stage.innerHTML = `
+      <div class="syl-join">
+        <span class="syl-char consonant" id="animCons" style="color:#C4B5D8">${consStr}</span>
+        <span class="syl-plus" id="animPlus">+</span>
+        <span class="syl-char vowel" id="animVowel" style="color:#A8C8E8">${vowelStr}</span>
+        <span class="syl-arrow" id="animArrow" style="opacity:0">→</span>
+        <span class="syl-char joined" id="animResult" style="color:${color};opacity:0">${syl}</span>
+      </div>`;
+  }
+}
+
+function playJoinAnimation(fam, idx, color, stage, btn) {
+  if (sylAnimPlaying) return;
+  sylAnimPlaying = true;
+  const s = fam.syllables[idx];
+  btn.disabled = true;
+
+  if (fam.type === 'vowels') {
+    speakWord(s.syl, 'pt-BR');
+    sylAnimPlaying = false;
+    btn.disabled = false;
+    return;
+  }
+
+  // Phase 1: highlight consonant
+  const cons   = stage.querySelector('#animCons');
+  const plus   = stage.querySelector('#animPlus');
+  const vowel  = stage.querySelector('#animVowel');
+  const arrow  = stage.querySelector('#animArrow');
+  const result = stage.querySelector('#animResult');
+
+  // Speak consonant
+  if (cons) { cons.style.transform = 'scale(1.2)'; speakWord(cons.textContent, 'pt-BR'); }
+
+  setTimeout(() => {
+    if (cons) cons.style.transform = 'scale(1)';
+    // Speak vowel
+    if (vowel) { vowel.style.transform = 'scale(1.2)'; speakWord(vowel.textContent, 'pt-BR'); }
+
+    setTimeout(() => {
+      if (vowel) vowel.style.transform = 'scale(1)';
+      // Show arrow, fade parts, show result
+      if (arrow)  { arrow.style.opacity = '1'; }
+      if (plus)   { plus.style.opacity = '0'; }
+
+      setTimeout(() => {
+        if (cons)   { cons.style.opacity = '0'; cons.style.transform = 'scale(.5)'; }
+        if (vowel)  { vowel.style.opacity = '0'; vowel.style.transform = 'scale(.5)'; }
+        if (arrow)  { arrow.style.opacity = '0'; }
+        if (result) { result.style.opacity = '1'; result.style.transform = 'scale(1.15)'; }
+        speakWord(s.syl, 'pt-BR');
+
+        setTimeout(() => {
+          if (result) result.style.transform = 'scale(1)';
+          sylAnimPlaying = false;
+          btn.disabled = false;
+        }, 600);
+      }, 500);
+    }, 700);
+  }, 700);
+}
+
+// ---- NÍVEL 3: Montar sílaba ----
+function renderSylLevel3(fam, container) {
+  const color = sylColors[fam.key] || '#E8A4B8';
+  const l = CL.v;
+  const s = fam.syllables[sylBuildIndex % fam.syllables.length];
+  const target = s.syl;
+
+  sylBuildSlots = Array(target.length).fill('');
+  sylBuildUsed  = [];
+
+  const area = document.createElement('div');
+  area.className = 'syl-build-area';
+
+  // Progress
+  const prog = document.createElement('div');
+  prog.className = 'prog-row';
+  fam.syllables.forEach((_, i) => {
+    const d = document.createElement('div');
+    const ci = sylBuildIndex % fam.syllables.length;
+    d.className = 'prog-dot' + (i < ci ? ' done' : i === ci ? ' current' : '');
+    prog.appendChild(d);
+  });
+  area.appendChild(prog);
+
+  // Target card
+  const tCard = document.createElement('div');
+  tCard.className = 'syl-build-target';
+  if (fam.example) {
+    tCard.innerHTML = `<span class="syl-build-emoji">${fam.example.emoji}</span>
+      <div class="syl-build-hint" style="color:var(--soft)">
+        ${l==='pt'?'Monte a sílaba:':'Build the syllable:'}
+        <strong style="color:${color}">${target}</strong>
+      </div>`;
+  } else {
+    tCard.innerHTML = `<div class="syl-build-hint">${l==='pt'?'Monte a sílaba:':'Build the syllable:'} <strong style="color:${color}">${target}</strong></div>`;
+  }
+
+  // Slots
+  const slotsDiv = document.createElement('div');
+  slotsDiv.className = 'syl-build-slots';
+  [...target].forEach((_, i) => {
+    const slot = document.createElement('div');
+    slot.className = 'syl-slot';
+    slot.dataset.idx = i;
+    slot.onclick = () => sylRemoveSlot(i, slotsDiv, lettersDiv);
+    slotsDiv.appendChild(slot);
+  });
+  tCard.appendChild(slotsDiv);
+  area.appendChild(tCard);
+
+  // Letters (target letters + 2 distractors)
+  const lettersDiv = document.createElement('div');
+  lettersDiv.className = 'syl-build-letters';
+  const allChars = [...target];
+  const extra = 'ABCDEFGILMNOPRSTUVZ'.split('').filter(c => !target.includes(c));
+  for (let i = 0; i < 2 && extra.length; i++)
+    allChars.push(extra.splice(Math.floor(Math.random() * extra.length), 1)[0]);
+  allChars.sort(() => Math.random() - .5).forEach((ch, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'syl-letter-btn';
+    btn.style.background = color;
+    btn.textContent = ch;
+    btn.dataset.li = i;
+    btn.onclick = () => sylAddToSlot(ch, btn, i, slotsDiv, lettersDiv, target, color, fb, area);
+    lettersDiv.appendChild(btn);
+  });
+  area.appendChild(lettersDiv);
+
+  // Feedback
+  const fb = document.createElement('div');
+  fb.className = 'syl-build-feedback';
+  area.appendChild(fb);
+
+  // Actions
+  const actions = document.createElement('div');
+  actions.className = 'syl-build-actions';
+
+  const resetBtn = document.createElement('button');
+  resetBtn.className = 'bact-btn reset';
+  resetBtn.innerHTML = '🔄 ' + (l==='pt'?'Reiniciar':'Restart');
+  resetBtn.onclick = () => { sylBuildSlots = Array(target.length).fill(''); sylBuildUsed = []; renderSylLevel3(fam, container); container.innerHTML = ''; renderSylLevel3(fam, container); };
+
+  const checkBtn = document.createElement('button');
+  checkBtn.className = 'bact-btn check';
+  checkBtn.innerHTML = '✅ ' + (l==='pt'?'Verificar':'Check');
+  checkBtn.onclick = () => sylCheckBuild(target, color, slotsDiv, fb, nextBtn);
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'bact-btn next';
+  nextBtn.style.display = 'none';
+  nextBtn.innerHTML = '➡️ ' + (l==='pt'?'Próxima':'Next');
+  nextBtn.onclick = () => {
+    sylBuildIndex++;
+    const c2 = document.getElementById('sylContent');
+    c2.innerHTML = '';
+    renderSylLevel3(fam, c2);
+  };
+
+  actions.appendChild(resetBtn);
+  actions.appendChild(checkBtn);
+  actions.appendChild(nextBtn);
+  area.appendChild(actions);
+
+  container.appendChild(area);
+
+  // Auto-speak target
+  speakWord(target, 'pt-BR');
+}
+
+function sylAddToSlot(ch, btn, li, slotsDiv, lettersDiv, target, color, fb, area) {
+  const next = sylBuildSlots.indexOf('');
+  if (next === -1) return;
+  sylBuildSlots[next] = ch;
+  sylBuildUsed.push({slotIdx:next, btnLi:li});
+  btn.classList.add('used');
+  const slot = slotsDiv.children[next];
+  slot.textContent = ch;
+  slot.classList.add('filled');
+  speakLetter(ch, 'pt-BR');
+}
+
+function sylRemoveSlot(si, slotsDiv, lettersDiv) {
+  if (sylBuildSlots[si] === '') return;
+  sylBuildSlots[si] = '';
+  const entry = sylBuildUsed.find(u => u.slotIdx === si);
+  if (entry) {
+    lettersDiv.children[entry.btnLi].classList.remove('used');
+    sylBuildUsed = sylBuildUsed.filter(u => u.slotIdx !== si);
+  }
+  const slot = slotsDiv.children[si];
+  slot.textContent = '';
+  slot.classList.remove('filled','correct','wrong');
+}
+
+function sylCheckBuild(target, color, slotsDiv, fb, nextBtn) {
+  const formed = sylBuildSlots.join('');
+  const l = CL.v;
+  if (formed === target) {
+    [...slotsDiv.children].forEach(s => s.classList.add('correct'));
+    fb.textContent = '🎉 ' + (l==='pt'?'Isso mesmo!':'That\'s it!');
+    fb.style.color = '#A8C5A0';
+    speakWord(l==='pt'?'Isso mesmo! '+target:'That\'s it! '+target, 'pt-BR');
+    nextBtn.style.display = 'inline-block';
+  } else {
+    [...target].forEach((ch, i) => {
+      const s = slotsDiv.children[i];
+      if (sylBuildSlots[i] === ch) s.classList.add('correct');
+      else if (sylBuildSlots[i] !== '') s.classList.add('wrong');
+    });
+    fb.textContent = '🤔 ' + (l==='pt'?'Tente de novo!':'Try again!');
+    fb.style.color = '#E8A4B8';
+    speak(l==='pt'?'Tente de novo!':'Try again!', 'pt-BR');
+    setTimeout(() => [...slotsDiv.children].forEach(s => s.classList.remove('correct','wrong')), 900);
+  }
+}
+
+// ==========================================================
+// INIT
+// ==========================================================
+renderLetters();
+renderVocab('animais');
+renderNumbers();
+initBuildGame();
+initSentenceGame();
+renderWordGame();
+// Syllables loaded on demand via showScreen
+
+// ==========================================================
+// PWA — Service Worker + Manifest (offline support)
+// ==========================================================
+(function setupPWA() {
+  // Inject Web App Manifest dynamically
+  const manifest = {
+    name: "Chicos — por Chicatelier",
+    short_name: "Aprender",
+    description: "App de letramento bilíngue para crianças",
+    start_url: "./",
+    display: "standalone",
+    background_color: "var(--bg)",
+    theme_color: "var(--rose)",
+    icons: [
+      { src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>", sizes: "192x192", type: "image/svg+xml" },
+      { src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>", sizes: "512x512", type: "image/svg+xml" }
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+  const manifestURL = URL.createObjectURL(blob);
+  document.getElementById('manifestLink').href = manifestURL;
+
+  // Register Service Worker via blob (works offline after first load)
+  if ('serviceWorker' in navigator) {
+    const swCode = `
+const CACHE = 'chicos-v1';
+self.addEventListener('install', e => {
+  e.waitUntil(
+    caches.open(CACHE).then(cache => cache.addAll(['./', './index.html']))
+      .catch(() => {}) // ok if fails, we still cache dynamically
+  );
+  self.skipWaiting();
+});
+self.addEventListener('activate', e => { e.waitUntil(self.clients.claim()); });
+self.addEventListener('fetch', e => {
+  e.respondWith(
+    caches.match(e.request).then(cached => {
+      if (cached) return cached;
+      return fetch(e.request).then(response => {
+        const clone = response.clone();
+        caches.open(CACHE).then(cache => cache.put(e.request, clone));
+        return response;
+      }).catch(() => cached);
+    })
+  );
+});`;
+    const swBlob = new Blob([swCode], {type:'application/javascript'});
+    const swURL = URL.createObjectURL(swBlob);
+    navigator.serviceWorker.register(swURL).catch(()=>{});
+  }
+
+  // Install prompt (Add to Home Screen)
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showInstallBanner();
+  });
+
+  function showInstallBanner() {
+    const banner = document.createElement('div');
+    banner.id = 'installBanner';
+    banner.style.cssText = `
+      position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+      background:var(--text);color:white;padding:12px 20px;border-radius:30px;
+      font-family:var(--font-body);font-weight:700;font-size:.85rem;
+      display:flex;align-items:center;gap:10px;z-index:999;
+      box-shadow:0 4px 20px rgba(0,0,0,.25);cursor:pointer;
+      animation:slideUp .4s ease;
+    `;
+    banner.innerHTML = `🌸 <span>Instalar Chicos no celular</span> <span style="opacity:.6;font-size:.75rem">×</span>`;
+    banner.onclick = async (e) => {
+      if (e.target.textContent === '×') { banner.remove(); return; }
+      if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; banner.remove(); }
+    };
+    document.body.appendChild(banner);
+  }
+
+  // Add install CSS animation
+  const style = document.createElement('style');
+  style.textContent = '@keyframes slideUp{from{transform:translateX(-50%) translateY(60px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}';
+  document.head.appendChild(style);
+})();
+</script>
+</body>
+</html>
