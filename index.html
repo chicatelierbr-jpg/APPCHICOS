@@ -601,7 +601,7 @@ const TOKENS = {
   'ADMIN-chicatelier': { nome: 'Administradora',      validade: null },
   'DEMO2025':          { nome: 'Demonstração',         validade: null },
   'TESTE-7DIAS': { nome: 'Teste 7 dias', validade: '2026-03-09' },
-  'FAM-xK9mP':         { nome: 'Família Seck',        validade: null },
+  'FAM-xK9mP':         { nome: 'Família Silva',        validade: null },
   'FAM-tZ3nQ':         { nome: 'Família Oliveira',     validade: null },
   'FAM-bR7wL':         { nome: 'Família Santos',       validade: null },
   'PROF-dH4vY':        { nome: 'Professora Ana',       validade: null },
@@ -659,17 +659,211 @@ const TOKENS = {
       min-height:100vh;display:flex;align-items:center;justify-content:center;
       font-family:'Verdana','Tahoma',system-ui,sans-serif;
     `;
+
+    if (expirado) {
+      // ══════════════════════════════════════
+      // TELA DE FEEDBACK (token expirado)
+      // ══════════════════════════════════════
+      document.body.style.background = 'linear-gradient(160deg,#FDF6F9 0%,#F5EEFF 100%)';
+      document.body.style.alignItems = 'flex-start';
+      document.body.style.overflowY = 'auto';
+      document.body.innerHTML = `
+        <div style="width:100%;max-width:480px;margin:0 auto;padding:32px 20px 48px;">
+
+          <!-- Cabeçalho -->
+          <div style="text-align:center;margin-bottom:28px;">
+            <svg viewBox="0 0 80 50" width="80" style="display:block;margin:0 auto 12px">
+              <path d="M10 42 A30 26 0 0 1 70 42" stroke="#E8A4B8" stroke-width="2.5" fill="none"/>
+              <path d="M18 42 A22 20 0 0 1 62 42" stroke="#C4B5D8" stroke-width="2" fill="none"/>
+              <ellipse cx="40" cy="18" rx="4" ry="6" fill="#F2C4D0" opacity="0.9"/>
+              <ellipse cx="27" cy="23" rx="3.5" ry="5" fill="#F2C4D0" opacity="0.7" transform="rotate(-30 27 23)"/>
+              <ellipse cx="53" cy="23" rx="3.5" ry="5" fill="#F2C4D0" opacity="0.7" transform="rotate(30 53 23)"/>
+              <circle cx="40" cy="42" r="3" fill="#E8A4B8" opacity="0.6"/>
+            </svg>
+            <div style="font-size:.7rem;letter-spacing:2px;color:#9B7585;text-transform:uppercase;margin-bottom:6px">Chicos por Chicatelier</div>
+            <h1 style="font-size:1.7rem;font-weight:800;color:#3D2B35;margin:0 0 8px">
+              Seu teste terminou! 🌸
+            </h1>
+            <p style="color:#9B7585;font-size:.9rem;line-height:1.6;margin:0">
+              Esperamos que a criançada tenha amado!<br>
+              Conta pra gente o que acharam 💕
+            </p>
+          </div>
+
+          <!-- Card de feedback -->
+          <div id="feedbackForm" style="background:white;border-radius:24px;padding:28px;box-shadow:0 8px 32px rgba(61,43,53,.10);margin-bottom:16px;">
+
+            <!-- Estrelas -->
+            <div style="margin-bottom:22px;">
+              <p style="font-weight:700;font-size:.9rem;color:#3D2B35;margin:0 0 12px">
+                ⭐ Como você avalia o Chicos?
+              </p>
+              <div id="stars" style="display:flex;gap:10px;justify-content:center;">
+                ${[1,2,3,4,5].map(n => `
+                  <span data-star="${n}" onclick="setStar(${n})"
+                    style="font-size:2.4rem;cursor:pointer;transition:transform .15s;filter:grayscale(1);opacity:.4"
+                    title="${n} estrela${n>1?'s':''}">⭐</span>
+                `).join('')}
+              </div>
+              <p id="starLabel" style="text-align:center;font-size:.8rem;color:#C4B5D8;margin:8px 0 0;min-height:1.2em"></p>
+            </div>
+
+            <!-- O que mais gostou -->
+            <div style="margin-bottom:18px;">
+              <label style="display:block;font-weight:700;font-size:.9rem;color:#3D2B35;margin-bottom:8px">
+                🎉 O que a criança mais gostou?
+              </label>
+              <textarea id="gostou" rows="3" placeholder="Ex: adorou as sílabas, ficou cantando os sons das letras..."
+                style="width:100%;padding:12px;border-radius:12px;border:2px solid #F2C4D0;
+                font-family:inherit;font-size:.88rem;resize:none;outline:none;
+                color:#3D2B35;line-height:1.5;box-sizing:border-box;"
+                onfocus="this.style.borderColor='#E8A4B8'"
+                onblur="this.style.borderColor='#F2C4D0'"></textarea>
+            </div>
+
+            <!-- O que pode melhorar -->
+            <div style="margin-bottom:18px;">
+              <label style="display:block;font-weight:700;font-size:.9rem;color:#3D2B35;margin-bottom:8px">
+                💡 O que poderia melhorar?
+              </label>
+              <textarea id="melhorar" rows="3" placeholder="Sua opinião honesta nos ajuda muito!"
+                style="width:100%;padding:12px;border-radius:12px;border:2px solid #F2C4D0;
+                font-family:inherit;font-size:.88rem;resize:none;outline:none;
+                color:#3D2B35;line-height:1.5;box-sizing:border-box;"
+                onfocus="this.style.borderColor='#E8A4B8'"
+                onblur="this.style.borderColor='#F2C4D0'"></textarea>
+            </div>
+
+            <!-- Indicaria -->
+            <div style="margin-bottom:24px;">
+              <p style="font-weight:700;font-size:.9rem;color:#3D2B35;margin:0 0 10px">
+                💬 Você indicaria o Chicos para outras famílias?
+              </p>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                ${['Sim, com certeza! 💕','Talvez 🤔','Ainda não sei'].map(op => `
+                  <button onclick="setIndicaria(this)"
+                    data-val="${op}"
+                    style="padding:9px 16px;border-radius:30px;border:2px solid #F2C4D0;
+                    background:white;font-family:inherit;font-size:.82rem;cursor:pointer;
+                    color:#9B7585;transition:all .2s;font-weight:600;">
+                    ${op}
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Botão enviar -->
+            <button onclick="enviarFeedback()"
+              style="width:100%;padding:14px;border-radius:30px;border:none;
+              background:linear-gradient(135deg,#E8A4B8,#C4B5D8);
+              color:white;font-family:inherit;font-size:1rem;font-weight:700;
+              cursor:pointer;box-shadow:0 4px 16px rgba(232,164,184,.4);
+              transition:transform .2s;"
+              onmouseover="this.style.transform='scale(1.02)'"
+              onmouseout="this.style.transform='scale(1)'">
+              Enviar feedback 🌸
+            </button>
+          </div>
+
+          <!-- Card de contratar -->
+          <div style="background:linear-gradient(135deg,#E8A4B8,#C4B5D8);border-radius:24px;padding:24px;text-align:center;box-shadow:0 8px 32px rgba(232,164,184,.3);">
+            <div style="font-size:2.2rem;margin-bottom:8px">🎓</div>
+            <h2 style="color:white;font-size:1.1rem;font-weight:800;margin:0 0 6px">
+              Quer continuar aprendendo?
+            </h2>
+            <p style="color:rgba(255,255,255,.85);font-size:.85rem;margin:0 0 16px;line-height:1.5">
+              Acesso completo ao Chicos,<br>sem prazo, sem anúncios! 🌟
+            </p>
+            <a href="https://wa.me/55SEU_NUMERO?text=Ol%C3%A1!%20Quero%20contratar%20o%20acesso%20completo%20ao%20Chicos!"
+              target="_blank"
+              style="display:block;padding:13px;border-radius:30px;
+              background:white;color:#E8A4B8;font-weight:800;font-size:.95rem;
+              text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.1);">
+              📲 Quero contratar!
+            </a>
+          </div>
+
+        </div>
+
+        <script>
+          let starValue = 0;
+          let indicariaValue = '';
+          const starLabels = ['','Não gostamos 😕','Mais ou menos 😐','Foi bom! 😊','Gostamos muito! 😄','Amamos! 🥰'];
+
+          function setStar(n) {
+            starValue = n;
+            document.querySelectorAll('#stars span').forEach((s,i) => {
+              s.style.filter = i < n ? 'none' : 'grayscale(1)';
+              s.style.opacity = i < n ? '1' : '.35';
+              s.style.transform = i < n ? 'scale(1.1)' : 'scale(1)';
+            });
+            document.getElementById('starLabel').textContent = starLabels[n];
+            document.getElementById('starLabel').style.color = '#E8A4B8';
+          }
+
+          function setIndicaria(btn) {
+            indicariaValue = btn.dataset.val;
+            document.querySelectorAll('[data-val]').forEach(b => {
+              b.style.background = 'white';
+              b.style.color = '#9B7585';
+              b.style.borderColor = '#F2C4D0';
+            });
+            btn.style.background = '#E8A4B8';
+            btn.style.color = 'white';
+            btn.style.borderColor = '#E8A4B8';
+          }
+
+          function enviarFeedback() {
+            const gostou   = document.getElementById('gostou').value.trim();
+            const melhorar = document.getElementById('melhorar').value.trim();
+
+            if (!starValue) {
+              alert('Por favor, selecione uma nota com as estrelas! ⭐');
+              return;
+            }
+
+            const estrelas = '⭐'.repeat(starValue);
+            const msg = encodeURIComponent(
+              '🌸 *Feedback do Chicos*\\n\\n' +
+              '*Nota:* ' + estrelas + ' (' + starValue + '/5)\\n' +
+              (gostou   ? '*O que mais gostou:* ' + gostou + '\\n'   : '') +
+              (melhorar ? '*O que pode melhorar:* ' + melhorar + '\\n': '') +
+              (indicariaValue ? '*Indicaria:* ' + indicariaValue + '\\n' : '') +
+              '\\nEnviado pelo app Chicos 💕'
+            );
+
+            window.open('https://wa.me/55SEU_NUMERO?text=' + msg, '_blank');
+
+            // Mostra agradecimento
+            document.getElementById('feedbackForm').innerHTML = \`
+              <div style="text-align:center;padding:20px 0;">
+                <div style="font-size:4rem;margin-bottom:12px">🥰</div>
+                <h2 style="color:#3D2B35;font-size:1.2rem;font-weight:800;margin:0 0 8px">
+                  Muito obrigada!
+                </h2>
+                <p style="color:#9B7585;font-size:.9rem;line-height:1.6">
+                  Seu feedback é muito importante<br>para o Chicos crescer! 🌸
+                </p>
+              </div>
+            \`;
+          }
+        <\/script>
+      `;
+      return;
+    }
+
+    // ══════════════════════════════════════
+    // TELA DE BLOQUEIO (sem token)
+    // ══════════════════════════════════════
     document.body.innerHTML = `
       <div style="text-align:center;padding:40px 24px;max-width:400px;">
-        <div style="font-size:5rem;margin-bottom:16px;">${expirado ? '⏰' : '🔒'}</div>
+        <div style="font-size:5rem;margin-bottom:16px;">🔒</div>
         <h1 style="font-size:1.6rem;font-weight:800;color:#3D2B35;margin-bottom:10px;">
-          ${expirado ? 'Acesso expirado' : 'Acesso restrito'}
+          Acesso restrito
         </h1>
         <p style="color:#9B7585;font-size:.95rem;line-height:1.6;margin-bottom:28px;">
-          ${expirado
-            ? 'O seu período de acesso terminou.<br>Entre em contato para renovar! 🌸'
-            : 'Este app é exclusivo para assinantes.<br>Use o link completo recebido após a compra.'
-          }
+          Este app é exclusivo para assinantes.<br>
+          Use o link completo recebido após a compra.
         </p>
         <div style="background:white;border-radius:20px;padding:24px;box-shadow:0 4px 20px rgba(61,43,53,.1);margin-bottom:20px;">
           <p style="font-size:.85rem;color:#9B7585;margin-bottom:12px;font-weight:600;">Tem um código de acesso?</p>
@@ -686,7 +880,7 @@ const TOKENS = {
           <p id="tokenError" style="color:#E8A4B8;font-size:.8rem;margin-top:8px;min-height:1.2em;"></p>
         </div>
         <p style="font-size:.8rem;color:#9B7585;">
-          ${expirado ? 'Quer renovar?' : 'Ainda não tem acesso?'}<br>
+          Ainda não tem acesso?<br>
           <a href="https://wa.me/55SEU_NUMERO" target="_blank"
             style="color:#E8A4B8;font-weight:700;text-decoration:none;">
             📲 Fale no WhatsApp
